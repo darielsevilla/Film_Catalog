@@ -7,6 +7,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import TopSearchBar from './BuildingBlocks/navbar';
 import { MD3DarkTheme } from 'react-native-paper';
+import  SearcResults  from './AlternatePages/searchresults'
+
 
 
 const templateScreen = () =>{
@@ -60,8 +62,8 @@ export default function HomeScreen() {
     <>
       <PaperProvider>
         {/*search bar */}
-        <TopSearchBar></TopSearchBar>
-        
+        {/*<TopSearchBar></TopSearchBar>*/}
+        <SearcResults search = "Dune"></SearcResults>
       </PaperProvider>
     </>
   );

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Searchbar, Avatar, PaperProvider } from 'react-native-paper';
 import { View } from 'react-native';
-import { customStyle } from '../styles/style';
+import { customStyle } from '../../styles/style';
 const MyComponent = () => (
     <Avatar.Icon size={24} icon="folder" />
   );
