@@ -60,5 +60,16 @@ export const cardStyles = StyleSheet.create({
     },
     textContainer:{
        flex: 0.9        
+    },
+    moreButton:{
+        marginLeft:  '10%',
+        marginRight: '10%'
+    },
+    notFoundIcon:{
+        width: '100%',
+        resizeMode: 'contain',
+    },
+    textCenter:{
+        textAlign:'center'
     }
 })
