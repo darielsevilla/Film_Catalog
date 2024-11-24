@@ -1,13 +1,28 @@
 import SearchCard from '../BuildingBlocks/searchCard';
-
-
+import { loadedMovies } from '../data/data';
+import { View } from 'react-native';
+import { Divider, Text } from 'react-native-paper';
 const MyComponent = (search: string) => {
     const _goBack = () => console.log('Went back');
   
     const _handleSearch = () => console.log('Searching');
   
     const _handleMore = () => console.log('Shown more');
-  
+    
+    const load = () => {
+        const filteredMovies = loadedMovies.movies.filter(movie => 
+            movie.name.toLowerCase().includes(search.toLowerCase())
+          );
+        return(<>
+        {filteredMovies.map((movie, i)=>(i==0)?<View key ={movie.id} >
+                <SearchCard name={movie.name} img = {movie.poster} id={movie.id} review={movie.rating} year={movie.year}></SearchCard>
+            </View>:
+        <View key ={movie.id} >
+            <Divider horizontalInset = {true} />
+            <SearchCard name={movie.name} img = {movie.poster} id={movie.id} review={movie.rating} year={movie.year}></SearchCard>
+        </View>)}
+        </>);
+    }
     return(
         <>
       <Appbar.Header>
@@ -17,7 +32,7 @@ const MyComponent = (search: string) => {
         <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
       </Appbar.Header>
 
-      <SearchCard name="Dune" img = "https://image.tmdb.org/t/p/w500/ldugBX89jCQA9RRwfzRgX0gNpBc.jpg" id={1} review={62} ></SearchCard>
+      {load()}
       </>
     );
   };

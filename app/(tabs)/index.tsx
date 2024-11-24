@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Platform } from 'react-native';
-import { AppRegistry,  } from 'react-native';
+import { AppRegistry, View } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -8,8 +8,7 @@ import { ThemedView } from '@/components/ThemedView';
 import TopSearchBar from './BuildingBlocks/navbar';
 import { MD3DarkTheme } from 'react-native-paper';
 import  SearcResults  from './AlternatePages/searchresults'
-
-
+import { useTheme } from 'react-native-paper';
 
 const templateScreen = () =>{
   return(<ParallaxScrollView
@@ -58,9 +57,11 @@ const templateScreen = () =>{
   </ParallaxScrollView>);
 }
 export default function HomeScreen() {
+  const themes = MD3DarkTheme;
+  const theme = useTheme();
   return (
     <>
-      <PaperProvider>
+      <PaperProvider> 
         {/*search bar */}
         {/*<TopSearchBar></TopSearchBar>*/}
         <SearcResults search = "Dune"></SearcResults>
