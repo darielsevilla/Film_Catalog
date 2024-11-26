@@ -1,16 +1,16 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-import { AppRegistry,  } from 'react-native';
-import { PaperProvider } from 'react-native-paper';
+import { Image, StyleSheet, Platform, SafeAreaView } from 'react-native';
+import { AppRegistry, } from 'react-native';
+import { PaperProvider, MD3DarkTheme } from 'react-native-paper';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import TopSearchBar from './BuildingBlocks/navbar';
-import { MD3DarkTheme } from 'react-native-paper';
+import LogIn from './LogIn'
 
 
-const templateScreen = () =>{
-  return(<ParallaxScrollView
+const templateScreen = () => {
+  return (<ParallaxScrollView
     headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
     headerImage={
       <Image
@@ -58,10 +58,10 @@ const templateScreen = () =>{
 export default function HomeScreen() {
   return (
     <>
-      <PaperProvider>
+      <PaperProvider theme={MD3DarkTheme}>
         {/*search bar */}
         <TopSearchBar></TopSearchBar>
-        
+
       </PaperProvider>
     </>
   );
