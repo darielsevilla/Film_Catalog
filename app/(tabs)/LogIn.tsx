@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ImageBackground, View, TextInput, Button, StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { ImageBackground, Image, View, TextInput, Button, StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
 
 export default function LogIn() {
     return (
@@ -7,9 +7,18 @@ export default function LogIn() {
             source={{ uri: 'https://okdiario.com/img/2022/03/31/filmin-esta-lleno-de-obras-maestras-del-cine.jpg' }}
             style={styles.backgroundImage}
         >
+
+            {/* Overlay degradado morado */}
             <View style={styles.overlay}></View>
+
             <KeyboardAvoidingView
                 style={styles.container}>
+
+                {/* Logo y Titulo */}
+                <View style={styles.logoContainer}>
+                    <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
+                    <Image source={require('../../assets/images/Text.png')} style={styles.logoTitle} />
+                </View>
 
                 {/* Contenido de login */}
                 <View style={styles.formContainer}>
@@ -54,7 +63,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        padding: 20,
     },
     formContainer: {
         width: '100%',
@@ -81,5 +89,20 @@ const styles = StyleSheet.create({
         color: 'white',
         marginTop: 20,
         textAlign: 'center',
+    },
+    image: {
+        alignContent: 'center',
+        width: 150,
+        height: 150,
+    },
+    logoTitle: {
+        width: 270,
+        height: 180,
+        resizeMode: 'contain',
+        marginBottom: '5%'
+    },
+    logoContainer: {
+        alignItems: 'center',
+        paddingTop: '6%'
     }
 });
