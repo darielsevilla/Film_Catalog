@@ -41,7 +41,30 @@ export const loadedMovies={
     year : 2024,
     poster: 'https://s3.amazonaws.com/nightjarprod/content/uploads/sites/340/2024/07/12111025/1pdfLvkbY9ohJlCjQH2CZjjYVvJ-scaled.jpg',
     language : "en",
-    overview : "Words Words Words"}]
+    overview : "Words Words Words"},
+    {
+    id:4,
+    name: "Star Wars: Revenge of the Sith",
+    rating: 100,
+    year: 2005,
+    poster: "https://image.tmdb.org/t/p/original/xfSAoBEm9MNBjmlNcDYLvLSMlnq.jpg",
+    language: "en",
+    overview : "peak"
+    }
+]
+}
+
+export const searchData={
+    queue : [{
+        queue: "Dune",
+        timestamp: new Date().toISOString()
+    },
+    {
+        queue: "Star Wars",
+        timestamp: new Date().toISOString()
+    }
+]
+
 }
 
 export const userInfo={

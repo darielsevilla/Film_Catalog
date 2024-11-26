@@ -5,14 +5,26 @@ import { View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
 import { Icon, MD3Colors } from 'react-native-paper';
 import { Image, StyleSheet, Platform } from 'react-native';
-
+import {useEffect, useState} from 'react'
 import { Button } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
+import { TextInput } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 const MyComponent = (search: string) => {
-    const _goBack = () => console.log('Went back');
+    //use States necesarios
+    const navigation = useNavigation();
+    
+    
+    useEffect(()=>{
+  
+    },[]);
+
+    //metodos de botones
+    const _goBack = () => {navigation.goBack()};
   
     const _handleSearch = () => console.log('Searching');
   
-    const _handleMore = () => console.log('Shown more');
+   
     
     const load = () => {
         const filteredMovies = loadedMovies.movies.filter(movie => 
@@ -27,6 +39,12 @@ const MyComponent = (search: string) => {
                     <Divider horizontalInset = {true} />
                     <SearchCard name={movie.name} img = {movie.poster} id={movie.id} review={movie.rating} year={movie.year}></SearchCard>
                 </View>)}
+
+                <View style={cardStyles.moreButton}>
+                    <Button icon="magnify-plus-outline"  buttonColor= "#7f7f7f" mode="contained" onPress={() => console.log('Pressed')}>
+                        Buscar Mas
+                    </Button>
+                </View>
                 </>);
         }else{
             return(<>
@@ -37,37 +55,47 @@ const MyComponent = (search: string) => {
                     />
                     <Text style = {cardStyles.textCenter} variant="labelSmall">No pudimos encontrar la pelicula que busca</Text>
                 </View>
+
+                <View style={cardStyles.moreButton}>
+                    <Button icon="magnify-plus-outline"  buttonColor= "#7f7f7f" mode="contained" onPress={() => console.log('Pressed')}>
+                        Buscar Mas
+                    </Button>
+                </View>
             </>);
         }
         
     }
+
+    const searchOptions = () =>{
+
+    }
+  
+    const TopBar = () =>{
+        return(<><Appbar.Header>
+            <Appbar.BackAction onPress={_goBack} />
+            <Appbar.Content title={search} onPress={_goBack}
+            /> 
+            <Appbar.Action icon="magnify" onPress={_handleSearch} />
+
+          </Appbar.Header></>);
+    }
     return(
         <>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={_goBack} />
-        <Appbar.Content title={search} />
-        <Appbar.Action icon="magnify" onPress={_handleSearch} />
-        <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
-      </Appbar.Header>
+        {TopBar()}
 
       {load()}
-        <View style={cardStyles.moreButton}>
-            <Button icon="magnify-plus-outline"  buttonColor= "#7f7f7f" mode="contained" onPress={() => console.log('Pressed')}>
-                Buscar Mas
-            </Button>
-        </View>
+        
       </>
     );
   };
 
 
-import { Appbar } from 'react-native-paper';
 
 interface SearchString{
     search: string
 }
-export default function SearchResults({search}:SearchString){
-    
+export default function SearchResults({ route }: { route: { params: SearchString } }){
+    const { search } = route.params;
     return(<>
         {MyComponent(search)}
 

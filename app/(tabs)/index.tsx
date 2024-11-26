@@ -9,7 +9,19 @@ import TopSearchBar from './BuildingBlocks/navbar';
 import { MD3DarkTheme } from 'react-native-paper';
 import  SearcResults  from './AlternatePages/searchresults'
 import { useTheme } from 'react-native-paper';
+import { useEffect } from 'react';
+import { searchData } from './data/data';
+import SearchingPage from './AlternatePages/searchingpage';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SearchResults from './AlternatePages/searchresults';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+type RootStackParamList = {
+  SearchingScreen: undefined;
+  SearchResults: { search: string }; 
+};
 
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const templateScreen = () =>{
   return(<ParallaxScrollView
     headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -56,16 +68,34 @@ const templateScreen = () =>{
     </ThemedView>
   </ParallaxScrollView>);
 }
+
+
+const saveList = async () =>{
+  await AsyncStorage.setItem("searches", JSON.stringify(searchData.queue))
+}
+const safeKeeping = () =>{
+  return(<>{/*<TopSearchBar></TopSearchBar>*/}
+    {/*<SearcResults search = "Dune"></SearcResults>*/}
+    <SearchingPage></SearchingPage></>);
+}
 export default function HomeScreen() {
+  useEffect(()=>{
+    saveList();
+  
+  },[])
   const themes = MD3DarkTheme;
   const theme = useTheme();
   return (
     <>
-      <PaperProvider> 
-        {/*search bar */}
-        {/*<TopSearchBar></TopSearchBar>*/}
-        <SearcResults search = "Dune"></SearcResults>
-      </PaperProvider>
+    {/*search bar */}
+        
+      
+       <Stack.Navigator initialRouteName='SearchingScreen'>
+          <Stack.Screen name= "SearchingScreen" component={SearchingPage} options={{ headerShown: false }}/>
+          <Stack.Screen name ="SearchResults" component={SearchResults} options={{ headerShown: false }}/>
+
+        </Stack.Navigator>
+      
     </>
   );
 }
