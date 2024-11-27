@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ImageBackground, Image, View, Button, StyleSheet, Text } from 'react-native';
 
-export default function LogIn() {
+export default function OpeningS({ navigation }: any) {
     return (
         <ImageBackground
             source={{ uri: 'https://okdiario.com/img/2022/03/31/filmin-esta-lleno-de-obras-maestras-del-cine.jpg' }}
@@ -19,11 +19,11 @@ export default function LogIn() {
             <Text style={styles.slogan}>Explora, organiza y disfruta: tu catálogo de películas perfecto.</Text>
 
             <View style={styles.buttons}>
-                <Button title="Iniciar Sesión" color="#6745b8" onPress={() => /*navigation.navigate('LogIn')*/ { }} />
+                <Button title="Iniciar Sesión" color="#6745b8" onPress={() => { navigation.navigate("LogIn") }} />
             </View>
 
             <View style={styles.buttons}>
-                <Button title="Registrarse" color="#6745b8" onPress={() => { }} />
+                <Button title="Registrarse" color="#6745b8" onPress={() => { navigation.navigate("SignUp") }} />
             </View>
 
         </ImageBackground >
