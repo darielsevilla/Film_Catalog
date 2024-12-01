@@ -16,13 +16,14 @@ import SearchResults from './AlternatePages/searchresults';
 import LogIn from './LogIn'
 import OpeningS from './AlternatePages/OpeningScreen';
 import SignUp from './SignUp';
-
+import InfoPage from './infopage';
 type RootStackParamList = {
   SearchingScreen: undefined;
   SearchResults: { search: string };
   LogIn: undefined;
   OpeningScreen: undefined;
   SignUp: undefined;
+  InfoPage: {movieId : number};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -92,12 +93,13 @@ export default function HomeScreen() {
   return (
     <>
       {/*search bar */}
-      <Stack.Navigator initialRouteName='OpeningScreen'>
+      <Stack.Navigator initialRouteName='SearchingScreen'>
         <Stack.Screen name="SearchingScreen" component={SearchingPage} options={{ headerShown: false }} />
         <Stack.Screen name="SearchResults" component={SearchResults} options={{ headerShown: false }} />
         <Stack.Screen name="LogIn" component={LogIn} options={{ headerShown: false }} />
         <Stack.Screen name="OpeningScreen" component={OpeningS} options={{ headerShown: false }} />
         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+        <Stack.Screen name="InfoPage" component={InfoPage} options={{ headerShown: false }} />
       </Stack.Navigator>
     </>
   );

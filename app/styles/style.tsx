@@ -73,3 +73,36 @@ export const cardStyles = StyleSheet.create({
         textAlign:'center'
     }
 })
+
+export const infoStyles = StyleSheet.create({
+    backgroundImg : {
+        height: '30%',
+        width: '100%',
+        opacity: 0.7,
+        resizeMode: 'cover',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    containerInfo : {
+        height: 'auto',
+        minHeight: '100%',
+        width: '100%',
+        backgroundColor: '#170829',
+        
+    },
+    border : {
+        borderStyle: 'solid',
+        borderColor: 'red',
+        borderWidth: 10,
+    },
+    overlay: {
+        position: 'absolute',
+        top: '22%',
+        left: '5%',
+        right: '5%',
+        color: 'white'
+
+    },
+
+})
