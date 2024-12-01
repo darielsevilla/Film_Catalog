@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native"
 import { SearchBar } from "react-native-screens"
 import { Dimensions } from 'react-native';
-import { orange100 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { orange100, white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 
 const screen = Dimensions.get('window')
@@ -75,14 +75,25 @@ export const cardStyles = StyleSheet.create({
 })
 
 export const infoStyles = StyleSheet.create({
+    topContainer  : {
+        width: "100%",
+        height: "45%",
+        display: 'flex',
+        justifyContent: 'flex-end',
+        position: 'relative',
+        padding: 20
+      
+    },
     backgroundImg : {
-        height: '30%',
-        width: '100%',
+       
         opacity: 0.7,
         resizeMode: 'cover',
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        top: 0, 
+    left: 0, 
+    right: 0, 
+    bottom: 0,
+        position: 'absolute'
     },
     containerInfo : {
         height: 'auto',
@@ -98,11 +109,43 @@ export const infoStyles = StyleSheet.create({
     },
     overlay: {
         position: 'absolute',
-        top: '22%',
+        top: '23%',
         left: '5%',
         right: '5%',
-        color: 'white'
+        color: 'white',
 
     },
+    gradient: {
+        position: 'absolute',  
+        bottom: 0,  
+        left: 0,
+        right: 0,
+        height: 200,  
+    },
+    topTextContainer: {
+        display: 'flex',
+        gap: 10,
+        flexDirection: 'row',
+          
+    },
+    txt : {
+        color: 'white',
+        bottom: 5
+    },
+   chipStyle : {
+        backgroundColor: 'transparent',
+        color: 'white',
+        borderColor: 'white',
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignSelf: 'flex-start'
+   },
+   chipText : {
 
+        textAlign: 'center',
+ 
+        display: 'flex',
+        color: 'white',
+       
+   }
 })

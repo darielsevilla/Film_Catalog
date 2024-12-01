@@ -5,6 +5,9 @@ import { infoStyles } from '../styles/style';
 import React from 'react';
 import {Image, StyleSheet, View, ImageBackground,SafeAreaView} from 'react-native';
 import { Text } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Chip } from 'react-native-paper';
+
 interface InfoPageParams {
     movieId: number;
 }
@@ -35,13 +38,13 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
     const getMovie = async () =>{
         const { movieId } = route.params;
         const url = process.env.EXPO_PUBLIC_PATH + '/getPelicula';
-        console.log("He llegado " +movieId+" " + url)
+  
         const response = await axios.get(url, {
             params:{
                 id: movieId
             }
         })
-        console.log("data:" +response.data.data.name)
+ 
         
         setMovie({
             id: response.data.data.id,
@@ -69,13 +72,31 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
     }
     return(<>
         <SafeAreaView style = {infoStyles.containerInfo}>
-         <ImageBackground
-        style={infoStyles.backgroundImg}
-        source={{
-          uri: movie?.background,
-        }}
-      />
-        <Text variant="displaySmall" style={infoStyles.overlay}>{movie?.name}</Text>
+            <View style={infoStyles.topContainer}>
+            <ImageBackground
+                style={infoStyles.backgroundImg}
+                source={{
+                uri: movie?.background,
+                }}
+            />
+            <Text style = {infoStyles.topTextContainer}>
+            <Text style={infoStyles.txt} variant="displaySmall">{movie?.name}</Text>
+            <Text style={infoStyles.txt}  variant="titleMedium">  ({movie?.year})  </Text>
+            </Text>
+            
+                <View style={infoStyles.topTextContainer}>
+                    {movie?.genres.map((genre)=><Chip style = {infoStyles.chipStyle} key={genre} mode="outlined"><Text style={infoStyles.chipText}>{genre}</Text></Chip>)}
+                </View>
+            </View>
+           
+         
+        
+        <View style={infoStyles.overlay}>
+            
+            
+        </View>
+
+        
         </SafeAreaView>
      </>);
    
