@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ImageBackground, Image, View, TextInput, Button, StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
 
-export default function LogIn() {
+export default function LogIn({navigation}: any) {
     return (
         <ImageBackground
             source={{ uri: 'https://okdiario.com/img/2022/03/31/filmin-esta-lleno-de-obras-maestras-del-cine.jpg' }}
@@ -36,7 +36,7 @@ export default function LogIn() {
                     />
 
                     <Button title="Iniciar Sesión" color="#6745b8" onPress={() => { }} />
-                    <Text style={styles.alternativeText}>¿No tienes una cuenta? Da click aquí para Registrarte.</Text>
+                    <Text style={styles.alternativeText} onPress={() => { navigation.navigate("SignUp")}} >¿No tienes una cuenta? Da click aquí para Registrarte.</Text>
                 </View>
             </KeyboardAvoidingView>
         </ImageBackground>
