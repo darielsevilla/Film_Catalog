@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ImageBackground, Image, View, TextInput, Button, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import {Dialog, Portal, PaperProvider,Text} from 'react-native-paper';
+import { ImageBackground, Image, View, TextInput, Button, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Dialog, Portal, PaperProvider, Text } from 'react-native-paper';
 import axios from "axios"
-import {useState} from 'react'
+import { useState } from 'react'
 
 export default function SignUp({ navigation }: any) {
     //useStates para los campos
@@ -15,166 +15,166 @@ export default function SignUp({ navigation }: any) {
     //const validation
     const [message, setMessage] = useState("");
     const [validation, setValidation] = useState(false)
-    const showDialog = () => {setValidation(true)}
-    const hideDialog = () => {setValidation(false)}
+    const showDialog = () => { setValidation(true) }
+    const hideDialog = () => { setValidation(false) }
 
-    const dialogInvalid = () =>{
-        return(
-        <Portal >
-          <Dialog visible={validation} onDismiss={hideDialog} style={styles.dialogContainer}>
-            <Dialog.Title style={styles.dialogText}>Error</Dialog.Title>
-            <Dialog.Content>
-              <Text variant="bodyMedium" style={styles.dialogText}>{message}</Text>
-            </Dialog.Content>
-            <Dialog.Actions>
-            <Button title="  OK  " color="#6745b8" onPress={hideDialog} />
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>);
+    const dialogInvalid = () => {
+        return (
+            <Portal >
+                <Dialog visible={validation} onDismiss={hideDialog} style={styles.dialogContainer}>
+                    <Dialog.Title style={styles.dialogText}>Error</Dialog.Title>
+                    <Dialog.Content>
+                        <Text variant="bodyMedium" style={styles.dialogText}>{message}</Text>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button title="  OK  " color="#6745b8" onPress={hideDialog} />
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>);
     }
     const [created, setCreated] = useState(false);
-   const signup = async () =>{
-        try{
-          
+    const signup = async () => {
+        try {
+
             const url = process.env.EXPO_PUBLIC_PATH + '/crearUsuario';
             const config = {
                 headers: {
-                    'Content-Type' : 'application/x-www-form-urlencoded',
-                    'Access-Control-Allow-Origin' : '*'
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Access-Control-Allow-Origin': '*'
                 }
             }
             const body = {
                 nombre: nombre,
                 contrasena: contrasena,
-                apellido: apellido, 
+                apellido: apellido,
                 checkcontrasena: checkpassword,
                 correo: correo
             }
             const response = await axios.post(url, body, config);
-            if(response.status != 200){
+            if (response.status != 200) {
                 await setMessage(response.data.message);
                 showDialog();
-            }else{
+            } else {
                 setCreated(true);
             }
 
-        }catch(error : unknown){
-            if(axios.isAxiosError(error)){
-                if(error.response){
-                    if(error.response.status == 400){
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    if (error.response.status == 400) {
                         await setMessage("Ingrese todos los campos");
-                    }else if(error.response.status == 402){
+                    } else if (error.response.status == 402) {
                         await setMessage("Los dos campos de contraseña deben ser iguales");
-                    }else if(error.response.status == 405){
+                    } else if (error.response.status == 405) {
                         await setMessage("Ingrese un formato valido de correo");
-                    }else if(error.response.status==406){
+                    } else if (error.response.status == 406) {
                         await setMessage("Ese correo ya tiene una cuenta registrada");
-                    }else{
+                    } else {
                         await setMessage("No se pudo crear la cuenta. Intente de nuevo");
                     }
-                }else{
+                } else {
                     await setMessage("Ocurrio un error. Intente de nuevo");
                 }
-            }else{
+            } else {
                 await setMessage("Ocurrio un error. Intente de nuevo");
             }
             console.log(error)
             showDialog();
         }
-        
-    }
-
-    const back = () =>{
 
     }
-    const content = () =>{
-        if(!created){
-            return(<>
+
+    const back = () => {
+
+    }
+    const content = () => {
+        if (!created) {
+            return (<>
                 <Text style={styles.title}>Crear Cuenta</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Nombre"
-                                keyboardType="default"
-                                value={nombre}
-                                onChangeText={setNombre}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Apellido"
-                                keyboardType="default"
-                                value={apellido}
-                                onChangeText={setApellido}
-                                
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Correo Electrónico"
-                                keyboardType="email-address"
-                                value={correo}
-                                onChangeText={setCorreo}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Contraseña"
-                                secureTextEntry
-                                value = {contrasena}
-                                onChangeText={setContrasena}
-    
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Confirmar Contraseña"
-                                secureTextEntry
-                                value = {checkpassword}
-                                onChangeText={setCheckPassword}
-                            />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Nombre"
+                    keyboardType="default"
+                    value={nombre}
+                    onChangeText={setNombre}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Apellido"
+                    keyboardType="default"
+                    value={apellido}
+                    onChangeText={setApellido}
 
-                            <Button title="Registrarse" color="#6745b8" onPress={signup} />
-                            <Text style={styles.alternativeText} onPress={() => { navigation.navigate("LogIn") }}>
-                                ¿Ya tienes una cuenta? Presiona aquí para Iniciar Sesión.
-                            </Text>
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Correo Electrónico"
+                    keyboardType="email-address"
+                    value={correo}
+                    onChangeText={setCorreo}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Contraseña"
+                    secureTextEntry
+                    value={contrasena}
+                    onChangeText={setContrasena}
+
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Confirmar Contraseña"
+                    secureTextEntry
+                    value={checkpassword}
+                    onChangeText={setCheckPassword}
+                />
+
+                <Button title="Registrarse" color="#6745b8" onPress={signup} />
+                <Text style={styles.alternativeText} onPress={() => { navigation.navigate("LogIn") }}>
+                    ¿Ya tienes una cuenta? Presiona aquí para Iniciar Sesión.
+                </Text>
             </>);
-        }else{
-            return(<><Text style={styles.title}>¡Cuenta creada con éxito!</Text>    
-                        <Button title="Iniciar Sesión" color="#6745b8" onPress={() => { navigation.navigate("OpeningScreen") }} />
-                        <Text style={styles.alternativeText}>
-                            Regresar a Iniciar Sesión
-                        </Text>
-                            
+        } else {
+            return (<><Text style={styles.title}>¡Cuenta creada con éxito!</Text>
+                <Button title="Iniciar Sesión" color="#6745b8" onPress={() => { navigation.navigate("OpeningScreen") }} />
+                <Text style={styles.alternativeText}>
+                    Regresar a Iniciar Sesión
+                </Text>
+
             </>);
         }
     }
 
     return (
         <PaperProvider>
-        <ImageBackground
-            source={{ uri: 'https://okdiario.com/img/2022/03/31/filmin-esta-lleno-de-obras-maestras-del-cine.jpg' }}
-            style={styles.backgroundImage}
-        >
-
-            {/* Overlay degradado */}
-            <View style={styles.overlay}></View>
-
-            <KeyboardAvoidingView
-                style={styles.container}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            <ImageBackground
+                source={{ uri: 'https://okdiario.com/img/2022/03/31/filmin-esta-lleno-de-obras-maestras-del-cine.jpg' }}
+                style={styles.backgroundImage}
             >
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.innerContainer}>
-                        <View style={styles.logoContainer}>
-                            <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
-                            <Image source={require('../../assets/images/Text.png')} style={styles.logoTitle} />
-                        </View>
 
-                        {/* Sign-Up Form */}
-                        <View style={styles.formContainer}>
-                            {content()}
-                            {dialogInvalid()}
+                {/* Overlay degradado */}
+                <View style={styles.overlay}></View>
+
+                <KeyboardAvoidingView
+                    style={styles.container}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                >
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={styles.innerContainer}>
+                            <View style={styles.logoContainer}>
+                                <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
+                                <Image source={require('../../assets/images/Text.png')} style={styles.logoTitle} />
+                            </View>
+
+                            {/* Sign-Up Form */}
+                            <View style={styles.formContainer}>
+                                {content()}
+                                {dialogInvalid()}
+                            </View>
                         </View>
-                    </View>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
-        </ImageBackground>
+                    </TouchableWithoutFeedback>
+                </KeyboardAvoidingView>
+            </ImageBackground>
         </PaperProvider>
     );
 };
@@ -211,8 +211,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: 40,
-        paddingTop: 15,
+        paddingBottom: 20,
+        paddingTop: 30,
     },
     image: {
         width: 100,

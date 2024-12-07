@@ -4,39 +4,39 @@ import axios from 'axios';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function LogIn({navigation}: any) {
+export default function LogIn({ navigation }: any) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+
     const [error, setError] = useState(0);
-    const updateEmail = (value : string) =>{
-        if(error != 0){
+    const updateEmail = (value: string) => {
+        if (error != 0) {
             setError(0);
         }
         setEmail(value);
     }
-    const updatePassword = (value : string) =>{
-        if(error != 0){
+    const updatePassword = (value: string) => {
+        if (error != 0) {
             setError(0);
         }
         setPassword(value);
     }
-    const errorMessage = () =>{
-        if(error == 2){
-            return(<Text style={styles.errorText}>Llene todos los campos</Text>)
-        }else if(error == 1){
-            return(<Text style={styles.errorText}>Correo y/o contraseña incorrecta</Text>)
-        }else{
-            return(<></>);
+    const errorMessage = () => {
+        if (error == 2) {
+            return (<Text style={styles.errorText}>Llene todos los campos</Text>)
+        } else if (error == 1) {
+            return (<Text style={styles.errorText}>Correo y/o contraseña incorrecta</Text>)
+        } else {
+            return (<></>);
         }
     }
-    const login = async () =>{
-        try{
+    const login = async () => {
+        try {
             const url = process.env.EXPO_PUBLIC_PATH + '/IniciarSesion';
             const config = {
                 headers: {
-                    'Content-Type' : 'application/x-www-form-urlencoded',
-                    'Access-Control-Allow-Origin' : '*'
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Access-Control-Allow-Origin': '*'
                 }
             }
             const body = {
@@ -44,27 +44,27 @@ export default function LogIn({navigation}: any) {
                 contrasena: password
             }
             const response = await axios.post(url, body, config);
-            
+
             //variables almacenadas en asyncstorage
             AsyncStorage.setItem("name", response.data.user.nombre);
             AsyncStorage.setItem("lastName", response.data.user.apellido);
             AsyncStorage.setItem("email", response.data.user.correo);
             navigation.navigate("MainScreen")
-        }catch(error : unknown){
-            if(axios.isAxiosError(error)){
-                if(error.response){
-                    if(error.response.status == 400){
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    if (error.response.status == 400) {
                         setError(1);
-                    }else{
+                    } else {
                         setError(2);
                     }
-                }else{
+                } else {
                     setError(2);
                 }
-            }else{
+            } else {
                 await setError(2);
             }
-           
+
         }
     }
 
@@ -94,19 +94,19 @@ export default function LogIn({navigation}: any) {
                         style={error == 0 ? styles.input : styles.error}
                         placeholder="Correo Electrónico"
                         keyboardType="email-address"
-                        value = {email}
-                        onChangeText = {updateEmail}
+                        value={email}
+                        onChangeText={updateEmail}
                     />
                     <TextInput
                         style={error == 0 ? styles.input : styles.error}
                         placeholder="Contraseña"
                         secureTextEntry
-                        value = {password}
-                        onChangeText = {updatePassword}
+                        value={password}
+                        onChangeText={updatePassword}
                     />
                     {errorMessage()}
                     <Button title="Iniciar Sesión" color="#6745b8" onPress={login} />
-                    <Text style={styles.alternativeText} onPress={() => { navigation.navigate("SignUp")}} >¿No tienes una cuenta? Da click aquí para Registrarte.</Text>
+                    <Text style={styles.alternativeText} onPress={() => { navigation.navigate("SignUp") }} >¿No tienes una cuenta? Da click aquí para Registrarte.</Text>
                 </View>
             </KeyboardAvoidingView>
         </ImageBackground>
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
+        paddingHorizontal: 20,
     },
     formContainer: {
         width: '100%',
