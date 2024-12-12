@@ -3,106 +3,104 @@ import { SearchBar } from "react-native-screens"
 import { Dimensions } from 'react-native';
 import { orange100, white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
-
 const screen = Dimensions.get('window')
 
 export const customStyle = StyleSheet.create({
-    top:{
+    top: {
         display: 'flex',
-        flexDirection:'row',
-        marginTop:24,
+        flexDirection: 'row',
+        marginTop: 24,
         margin: 10,
-        justifyContent:'center'
+        justifyContent: 'center'
     },
-    bar:{
-        width: screen.width*0.75,
+    bar: {
+        width: screen.width * 0.75,
         marginRight: 10
     },
-    background:{
-        backgroundColor:'gray',
-        color:'white'
+    background: {
+        backgroundColor: 'gray',
+        color: 'white'
     }
 
- })
+})
 
 export const cardStyles = StyleSheet.create({
-    searchcard:{
+    searchcard: {
         elevation: 0,
         margin: 5,
-        display:'flex',
-        justifyContent:'space-between',
+        display: 'flex',
+        justifyContent: 'space-between',
         fontFamily: 'Roboto'
     },
-    searchCardLogo:{
+    searchCardLogo: {
 
         width: '30%',
         aspectRatio: 2 / 3,
-        resizeMode: 'contain',   
+        resizeMode: 'contain',
         borderRadius: 10
     },
-    searchCardFlex:{
+    searchCardFlex: {
         display: 'flex',
         flexDirection: 'row',
-        gap:10,
+        gap: 10,
     },
     sideContainer: {
-       marginTop: 20,
-       marginBottom: 20,
-       flexDirection: 'column',
-       flex: 1,
-       fontFamily: 'Roboto',
+        marginTop: 20,
+        marginBottom: 20,
+        flexDirection: 'column',
+        flex: 1,
+        fontFamily: 'Roboto',
     },
-    subtitleTextColor:{
-        color:'gray'
+    subtitleTextColor: {
+        color: 'gray'
     },
     maxHeight: {
         height: '100%'
     },
-    textContainer:{
-       flex: 0.9        
+    textContainer: {
+        flex: 0.9
     },
-    moreButton:{
-        marginLeft:  '10%',
+    moreButton: {
+        marginLeft: '10%',
         marginRight: '10%'
     },
-    notFoundIcon:{
+    notFoundIcon: {
         width: '100%',
         resizeMode: 'contain',
     },
-    textCenter:{
-        textAlign:'center'
+    textCenter: {
+        textAlign: 'center'
     }
 })
 
 export const infoStyles = StyleSheet.create({
-    topContainer  : {
+    topContainer: {
         width: "100%",
         height: "45%",
         display: 'flex',
         justifyContent: 'flex-end',
         position: 'relative',
         padding: 20
-      
+
     },
-    backgroundImg : {
-       
+    backgroundImg: {
+
         opacity: 0.7,
         resizeMode: 'cover',
         flex: 1,
-        top: 0, 
-    left: 0, 
-    right: 0, 
-    bottom: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         position: 'absolute'
     },
-    containerInfo : {
+    containerInfo: {
         height: 'auto',
         minHeight: '100%',
         width: '100%',
         backgroundColor: '#170829',
-        
     },
-    border : {
+    border: {
         borderStyle: 'solid',
         borderColor: 'red',
         borderWidth: 10,
@@ -116,36 +114,72 @@ export const infoStyles = StyleSheet.create({
 
     },
     gradient: {
-        position: 'absolute',  
-        bottom: 0,  
+        position: 'absolute',
+        bottom: 0,
         left: 0,
         right: 0,
-        height: 200,  
+        height: 200,
     },
     topTextContainer: {
         display: 'flex',
         gap: 10,
         flexDirection: 'row',
-          
+
     },
-    txt : {
+    txt: {
         color: 'white',
         bottom: 5
     },
-   chipStyle : {
+    chipStyle: {
         backgroundColor: 'transparent',
         color: 'white',
         borderColor: 'white',
         textAlign: 'center',
         justifyContent: 'center',
         alignSelf: 'flex-start'
-   },
-   chipText : {
+    },
+    chipText: {
 
         textAlign: 'center',
- 
+
         display: 'flex',
         color: 'white',
-       
-   }
+
+    },
+})
+
+export const movieStyles = StyleSheet.create({
+    bodyContainer: {
+        padding: '5%'
+    },
+    poster: {
+        width: '40%',
+        height: 250,
+        borderRadius: 10,
+        resizeMode: 'cover'
+    },
+    divisor: {
+        height: 2,
+        backgroundColor: '#6744b9',
+        marginTop: 30,
+        marginBottom: 30,
+        width: '100%',
+        alignSelf: 'center',
+    },
+    rowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: 10,
+    },
+    textContainer: {
+        flex: 1,
+        marginLeft: 10,
+    },
+    textColor: {
+        color: '#b1a4c2',
+        fontWeight: "bold"
+    },
+    bodyColor: {
+        color: 'white'
+    }
 })
