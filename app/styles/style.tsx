@@ -76,15 +76,14 @@ export const cardStyles = StyleSheet.create({
 export const infoStyles = StyleSheet.create({
     topContainer: {
         width: "100%",
-        height: "45%",
+        minHeight: 300,
         display: 'flex',
         justifyContent: 'flex-end',
         position: 'relative',
-        padding: 20
-
+        padding: 20,
+        marginBottom: 10,
     },
     backgroundImg: {
-
         opacity: 0.7,
         resizeMode: 'cover',
         flex: 1,
@@ -95,8 +94,7 @@ export const infoStyles = StyleSheet.create({
         position: 'absolute'
     },
     containerInfo: {
-        height: 'auto',
-        minHeight: '100%',
+        flex: 1,
         width: '100%',
         backgroundColor: '#170829',
     },
@@ -161,8 +159,8 @@ export const movieStyles = StyleSheet.create({
     divisor: {
         height: 2,
         backgroundColor: '#6744b9',
-        marginTop: 30,
-        marginBottom: 30,
+        marginTop: 40,
+        marginBottom: 40,
         width: '100%',
         alignSelf: 'center',
     },
@@ -175,11 +173,84 @@ export const movieStyles = StyleSheet.create({
         flex: 1,
         marginLeft: 10,
     },
-    textColor: {
+    attributesColor: {
         color: '#b1a4c2',
         fontWeight: "bold"
     },
     bodyColor: {
-        color: 'white'
-    }
+        color: 'white',
+        paddingBottom: 5
+    },
+    rating: {
+        width: 40,
+        height: 40,
+        marginBottom: 15,
+    },
+    ratingContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: '#b701c2',
+        padding: 10,
+        borderRadius: 10
+    },
+    ratingText: {
+        color: 'white',
+        fontWeight: "bold",
+        fontSize: 28
+    },
+    detailsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20
+    },
+    favoriteBtn: {
+        alignItems: 'center',
+        backgroundColor: '#6745b8',
+        paddingVertical: 10,
+        paddingHorizontal: 2,
+        borderRadius: 10,
+        gap: 10,
+        width: 120
+    },
+    buttonImage: {
+        width: 31,
+        height: 31,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 17,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    titles: {
+        color: 'white',
+        paddingBottom: 30
+    },
+    text: {
+        color: '#b1a4c2'
+    },
+    video: {
+        width: '100%',
+        height: 200,
+    },
+    adultsContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: '#38284c',
+        padding: 10,
+        borderRadius: 10
+    },
+    adultsText: {
+        color: '#b1a4c2',
+    },
+    adults: {
+        width: 45,
+        height: 45,
+        marginBottom: 10,
+    },
 })
