@@ -21,8 +21,20 @@ export const customStyle = StyleSheet.create({
     background:{
         backgroundColor:'gray',
         color:'white'
+    },
+    containerInfo : {
+        height: 'auto',
+        minHeight: '100%',
+        width: '100%',
+        backgroundColor: '#18092a',
+        
+    },
+    backgroundSearchBar : {
+        backgroundColor: "#332246"
+    },
+    backgroundNormal : {
+        backgroundColor: "#18092a"
     }
-
  })
 
 export const cardStyles = StyleSheet.create({
@@ -52,14 +64,20 @@ export const cardStyles = StyleSheet.create({
        flex: 1,
        fontFamily: 'Roboto',
     },
+    titleTextColor:{
+        color:'white'
+    },
     subtitleTextColor:{
-        color:'gray'
+        color:'#D9D9D9'
     },
     maxHeight: {
         height: '100%'
     },
     textContainer:{
        flex: 0.9        
+    },
+    textColor:{
+        color:'gray'
     },
     moreButton:{
         marginLeft:  '10%',

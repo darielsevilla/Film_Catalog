@@ -10,6 +10,8 @@ import { searchData } from './data/data';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//lista global 
+import { FavoriteMovies } from '@/context/MoviesContext';
 //tabs
 import SearchingPage from './AlternatePages/searchingpage';
 import SearchResults from './AlternatePages/searchresults';
@@ -17,6 +19,8 @@ import LogIn from './LogIn'
 import OpeningS from './AlternatePages/OpeningScreen';
 import SignUp from './SignUp';
 import MainScreen from './mainscreen';
+import { AppState } from 'react-native';
+import axios from 'axios';
 
 type RootStackParamList = {
   SearchingScreen: undefined;
@@ -26,6 +30,7 @@ type RootStackParamList = {
   SignUp: undefined;
   MainScreen : undefined;
 };
+
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const templateScreen = () => {
@@ -88,12 +93,29 @@ export default function HomeScreen() {
   useEffect(() => {
     saveList();
 
+    const appListener = AppState.addEventListener('change', closeEvt)
+
   }, [])
+  const closeEvt = (nextAppState: string) => {
+    if (nextAppState === 'background') {       
+      try{
+        const userID =  AsyncStorage.getItem("id")
+      
+        const headers = {
+         
+        }
+      } catch(error){
+
+      }
+      
+    }
+  };
   const themes = MD3DarkTheme;
   const theme = useTheme();
   return (
     <>
       {/*search bar */}
+      <FavoriteMovies>
       <Stack.Navigator initialRouteName='OpeningScreen'>
         <Stack.Screen name="SearchingScreen" component={SearchingPage} options={{ headerShown: false }} />
         <Stack.Screen name="SearchResults" component={SearchResults} options={{ headerShown: false }} />
@@ -102,6 +124,7 @@ export default function HomeScreen() {
         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
         <Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
+      </FavoriteMovies>
     </>
   );
 }

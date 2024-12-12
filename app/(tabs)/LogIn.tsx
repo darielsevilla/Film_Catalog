@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { ImageBackground, Image, View, TextInput, Button, StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { MoviesContext } from '@/context/MoviesContext';
 export default function LogIn({navigation}: any) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+    const {favorites, setFavorites} = useContext(MoviesContext)
     const [error, setError] = useState(0);
     const updateEmail = (value : string) =>{
         if(error != 0){
@@ -46,10 +46,45 @@ export default function LogIn({navigation}: any) {
             const response = await axios.post(url, body, config);
             
             //variables almacenadas en asyncstorage
+            
             AsyncStorage.setItem("name", response.data.user.nombre);
             AsyncStorage.setItem("lastName", response.data.user.apellido);
             AsyncStorage.setItem("email", response.data.user.correo);
-            navigation.navigate("MainScreen")
+            AsyncStorage.setItem("id", response.data.user._id)
+            
+        
+            //posiblemente requira mover todo esto al apartado de la mainscreen
+            const url2 = process.env.EXPO_PUBLIC_PATH + '/getPeliculasPorCategoria';
+            const headers = {
+                params : {
+                    categorias: "878,28,18,99,16"
+                }
+            }
+            //carga la lista de peliculas
+            const response2 = await axios.get(url2, headers);
+            //console.log(response2.data.data)
+            AsyncStorage.setItem("loadedFilms", JSON.stringify(response2.data.data));
+           
+            const headers2 = {
+                params : {
+                    user: response.data.user._id
+                }
+            }
+            const urlFavorites = process.env.EXPO_PUBLIC_PATH + '/getFavoritos';
+            const responseFavorite = await axios.get(urlFavorites, headers2)
+
+            //console.log(responseFavorite.data.resultado)
+            AsyncStorage.setItem("favorites", JSON.stringify(responseFavorite.data.resultado));
+            await setFavorites(responseFavorite.data.resultado)
+            
+            //conseguir busquedas
+            const urlsearches = process.env.EXPO_PUBLIC_PATH + '/History'
+            
+            const responseSearches = await axios.get(urlsearches, headers2);
+            
+            //console.log(favorites)
+                
+            navigation.navigate("SearchingScreen")
         }catch(error : unknown){
             if(axios.isAxiosError(error)){
                 if(error.response){

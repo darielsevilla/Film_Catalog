@@ -5,9 +5,11 @@ import { Icon, MD3Colors } from 'react-native-paper';
 import { Card, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from 'react-native-paper';
-import { cardStyles } from '../../styles/style';
-import { TouchableOpacity } from 'react-native';
+import { cardStyles, customStyle } from '../../styles/style';
+import { TouchableOpacity, SafeAreaView } from 'react-native';
 import { Divider } from 'react-native-paper';
+
+
 export default function SearchingPage({ navigation }: any){
     interface search{
         queue: string;
@@ -24,6 +26,7 @@ export default function SearchingPage({ navigation }: any){
         }))
 
     }
+
     const submit = async (newQueue : string) =>{
         if(searchList.find(item => item.queue.toLowerCase() === newQueue.toLowerCase()) === undefined){
             if(searchList.length < 5){
@@ -67,7 +70,7 @@ export default function SearchingPage({ navigation }: any){
                         {/*search info*/}
                         
                         <View style={cardStyles.textContainer}>
-                        <Text>{item.queue}</Text>
+                        <Text style={cardStyles.textColor}>{item.queue}</Text>
                         </View>
                         
                     </Card.Content>
@@ -93,7 +96,7 @@ export default function SearchingPage({ navigation }: any){
                         {/*search info*/}
                         
                         <View style={cardStyles.textContainer}>
-                        <Text>{item.queue}</Text>
+                        <Text style={cardStyles.textColor}>{item.queue}</Text>
                         </View>
                         
                     </Card.Content>
@@ -111,20 +114,22 @@ export default function SearchingPage({ navigation }: any){
     };
 
     return(<>
-        <Appbar.Header>
-            <Appbar.BackAction  />
+        <Appbar.Header style = {customStyle.backgroundSearchBar}>
+            <Appbar.BackAction color='white' onPress={()=>{{navigation.goBack()}}}/>
             <Appbar.Content title={<TextInput
-              style={{ color: "black", fontSize: 18 }}
+              style={{ color: 'white', fontSize: 18 }}
               value={searchQueue}
+                
               onChangeText={handleTitleChange}
               onSubmitEditing={()=>{submit}}
               placeholder="Busque una pelicula o una serie"
-              placeholderTextColor="lightgray"
+              placeholderTextColor="white"
             />}
             /> 
-            <Appbar.Action icon="magnify" onPress={()=>{submit(searchQueue)}}/>
+            <Appbar.Action icon="magnify"  color='white' onPress={()=>{submit(searchQueue)}}/>
         </Appbar.Header>
-
+        <SafeAreaView style = {customStyle.containerInfo}>
           {loadSearches()}
+          </SafeAreaView>
     </>);
 }
