@@ -8,18 +8,18 @@ import { Chip } from 'react-native-paper';
 import { ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { TouchableOpacity } from 'react-native';
-import Video from 'react-native-video';
+import { WebView } from 'react-native-webview';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Card } from 'react-native-paper';
 
 interface InfoPageParams {
     movieId: number;
 }
 
-interface genre {
-    name: string
+interface gallery {
+    image: string;
 }
-interface companies {
-    name: string
-}
+
 interface Movie {
     id: number,
     poster: string,
@@ -36,25 +36,37 @@ interface Movie {
     adult: boolean,
     date: string,
     favorite: boolean,
+    gallery: gallery[];
 }
 
 export default function InfoPage({ route }: { route: { params: InfoPageParams } }) {
     const [load, setLoad] = useState(false);
     const [movie, setMovie] = useState<Movie>()
+    const [adult, setAdult] = useState<boolean>(false);
+    const [kids, setKids] = useState<boolean>(false);
 
     const getMovie = async () => {
+        const userId = await AsyncStorage.getItem("id");
         const { movieId } = route.params;
         const url = process.env.EXPO_PUBLIC_PATH + '/getPelicula';
 
         const response = await axios.get(url, {
             params: {
-                id: movieId
+                movieID: movieId,
+                userID: userId
             }
         })
 
+        const getEmbedUrl = (url: string) => {
+            if (url.includes("watch?v=")) {
+                return url.replace("watch?v=", "embed/");
+            }
+            return url;
+        };
+
         setMovie({
             id: response.data.data.id,
-            poster: response.data.data.id.poster,
+            poster: response.data.data.poster,
             background: response.data.data.background,
             name: response.data.data.name,
             rating: response.data.data.rating,
@@ -63,14 +75,23 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
             overview: response.data.data.overview,
             genres: response.data.data.genres,
             production: response.data.data.production,
-            trailer: response.data.data.trailer,
+            trailer: getEmbedUrl(response.data.data.trailer),
             adult: response.data.data.adult,
             duration: response.data.data.duration,
             date: response.data.data.date,
-            favorite: response.data.data.favorite
+            favorite: response.data.data.favorite,
+            gallery: response.data.data.images
         });
         //conseguir datos
 
+
+        console.log("adult " + response.data.data.adult);
+
+        if (adult) {
+            setAdult(true);
+        } else {
+            setKids(true);
+        }
         setLoad(true)
 
     }
@@ -83,9 +104,9 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
     return (<>
         <SafeAreaView style={infoStyles.containerInfo}>
             <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
-                <View style={infoStyles.topContainer}>
+                <View style={movieStyles.topContainer}>
                     <ImageBackground
-                        style={infoStyles.backgroundImg}
+                        style={movieStyles.backgroundImg}
                         source={{
                             uri: movie?.background,
                         }}
@@ -107,18 +128,26 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
 
                         <View style={movieStyles.adultsContainer}>
                             {/*todo publico*/}
-                            {/*<Image style={movieStyles.rating}
-                                source={require('../../assets/images/familia.png')} />
-                            <Text style={movieStyles.adultsText} variant="titleLarge">
-                                Everyone
-                            </Text>*/}
+                            {kids && (
+                                <>
+                                    <Image style={movieStyles.rating}
+                                        source={require('../../assets/images/familia.png')} />
+                                    <Text style={movieStyles.adultsText} variant="titleLarge">
+                                        Everyone
+                                    </Text>
+                                </>
+                            )}
 
                             {/*adultos*/}
-                            <Image style={movieStyles.adults}
-                                source={require('../../assets/images/18.png')} />
-                            <Text style={movieStyles.adultsText} variant="titleLarge">
-                                Adults
-                            </Text>
+                            {adult && (
+                                <>
+                                    <Image style={movieStyles.adults}
+                                        source={require('../../assets/images/18.png')} />
+                                    <Text style={movieStyles.adultsText} variant="titleLarge">
+                                        Adults
+                                    </Text>
+                                </>
+                            )}
                         </View>
 
                         {/*rating*/}
@@ -130,6 +159,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                             </Text>
                         </View>
 
+                        {/*Agregar a Favoritos*/}
                         <TouchableOpacity style={movieStyles.favoriteBtn} onPress={() => {/* Tu función aquí */ }}>
                             <Image style={movieStyles.buttonImage} source={require('../../assets/images/favorito.png')} />
                             <Text style={movieStyles.buttonText}>Add to Favorites</Text>
@@ -139,19 +169,21 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                     <View style={movieStyles.divisor} />
 
                     <View style={movieStyles.rowContainer}>
+                        {/* poster */}
                         <Image
                             style={movieStyles.poster}
                             source={{
-                                uri: movie?.background,
+                                uri: movie?.poster,
                             }}
                         />
 
+                        {/*detalles de la pelicula*/}
                         <View style={movieStyles.textContainer}>
                             <Text style={movieStyles.bodyColor} variant="titleMedium">
                                 <Text style={movieStyles.attributesColor}>Title:</Text> {movie?.name}
                             </Text>
                             <Text style={movieStyles.bodyColor} variant="titleMedium">
-                                <Text style={movieStyles.attributesColor}>Running Time:</Text> {movie?.duration}
+                                <Text style={movieStyles.attributesColor}>Running Time:</Text> {movie?.duration} min
                             </Text>
                             <Text style={movieStyles.bodyColor} variant="titleMedium">
                                 <Text style={movieStyles.attributesColor}>Release Date:</Text> {movie?.date}
@@ -166,7 +198,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                     </View>
 
                     <View style={movieStyles.divisor} />
-
+                    {/*sinopsis*/}
                     <View>
                         <Text style={movieStyles.titles} variant="displaySmall">
                             Overview
@@ -176,21 +208,44 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                         </Text>
                     </View>
 
-                    <View style={movieStyles.divisor} />
 
-                    <View>
-                        <Text style={movieStyles.titles} variant="displaySmall">
-                            Trailer
-                        </Text>
-                        {/*<Video
-                            source={{ uri: movie?.trailer }}
-                            style={movieStyles.video}
-                            controls
-                            resizeMode="contain"
-                            paused={false}
-                        />*/}
-                    </View>
+                    {/* trailer */}
+                    {movie?.trailer && (<>
+                        <View style={movieStyles.divisor} />
+                        <View>
+                            <Text style={movieStyles.titles} variant="displaySmall">
+                                Trailer
+                            </Text>
+                            <WebView
+                                source={{ uri: movie.trailer }}
+                                style={movieStyles.video}
+                                javaScriptEnabled={true}
+                                domStorageEnabled={true}
+                                onError={(syntheticEvent) => {
+                                    const { nativeEvent } = syntheticEvent;
+                                    console.error('WebView error: ', nativeEvent);
+                                }}
+                            />
+                        </View>
+                    </>
+                    )}
 
+                    {/* galeria */}
+                    {movie?.gallery && (<>
+                        <View style={movieStyles.divisor} />
+                        <View>
+                            <Text style={movieStyles.titles} variant="displaySmall">
+                                Gallery
+                            </Text>
+                            {movie.gallery.map((photo, index) => (
+                                <Card key={index} style={{ marginBottom: 20 }}>
+                                    <Card.Cover source={{ uri: photo.image }} />
+                                </Card>
+                            )
+                            )}
+                        </View>
+                    </>
+                    )}
                 </View>
 
 

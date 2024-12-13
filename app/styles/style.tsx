@@ -74,25 +74,7 @@ export const cardStyles = StyleSheet.create({
 })
 
 export const infoStyles = StyleSheet.create({
-    topContainer: {
-        width: "100%",
-        minHeight: 300,
-        display: 'flex',
-        justifyContent: 'flex-end',
-        position: 'relative',
-        padding: 20,
-        marginBottom: 10,
-    },
-    backgroundImg: {
-        opacity: 0.7,
-        resizeMode: 'cover',
-        flex: 1,
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        position: 'absolute'
-    },
+
     containerInfo: {
         flex: 1,
         width: '100%',
@@ -147,6 +129,25 @@ export const infoStyles = StyleSheet.create({
 })
 
 export const movieStyles = StyleSheet.create({
+    topContainer: {
+        width: "100%",
+        minHeight: 300,
+        display: 'flex',
+        justifyContent: 'flex-end',
+        position: 'relative',
+        padding: 20,
+        marginBottom: 10,
+    },
+    backgroundImg: {
+        opacity: 0.7,
+        resizeMode: 'cover',
+        flex: 1,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        position: 'absolute'
+    },
     bodyContainer: {
         padding: '5%'
     },
@@ -234,7 +235,7 @@ export const movieStyles = StyleSheet.create({
     },
     video: {
         width: '100%',
-        height: 200,
+        height: 230,
     },
     adultsContainer: {
         flexDirection: 'column',
