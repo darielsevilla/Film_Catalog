@@ -1,6 +1,6 @@
 import { cardStyles, customStyle } from '@/app/styles/style';
 import SearchCard from '../BuildingBlocks/searchCard';
-import { loadedMovies } from '../data/data';
+//import { loadedMovies } from '../data/data';
 import { View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
 import { Icon, MD3Colors } from 'react-native-paper';
@@ -29,7 +29,7 @@ const MyComponent = (search: string) => {
     const {favorites, setFavorites} = useContext(MoviesContext);
 
     const loadLists = async () =>{
-        console.log("llegue")
+       
         const movies = await AsyncStorage.getItem("loadedFilms");
       
         const tempoList: Record<string, movies[]> =JSON.parse(movies?movies:"[]");
@@ -54,7 +54,6 @@ const MyComponent = (search: string) => {
                     formList.push(item2)
                 }
             }
-        console.log(formList)
         setList(formList);
         //setFavorites(favList);
     }
@@ -72,9 +71,9 @@ const MyComponent = (search: string) => {
     const load =  () => {
     
         
-        const filteredMovies = loadedMovies.movies.filter(movie => 
+        /*const filteredMovies = loadedMovies.movies.filter(movie => 
             movie.name.toLowerCase().includes(search.toLowerCase())
-          );
+          );*/
         if(list.length > 0){
             return(<>
                 {list.map((movie, i)=>(i==0)?<View key ={movie.id} >

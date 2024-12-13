@@ -95,15 +95,31 @@ export default function HomeScreen() {
 
     const appListener = AppState.addEventListener('change', closeEvt)
 
+    return () => {
+      appListener.remove();
+  };
   }, [])
-  const closeEvt = (nextAppState: string) => {
+  const closeEvt = async (nextAppState: string) => {
     if (nextAppState === 'background') {       
       try{
-        const userID =  AsyncStorage.getItem("id")
-      
-        const headers = {
-         
+        
+        const userID =  await AsyncStorage.getItem("id")
+        const item = await AsyncStorage.getItem("searches")
+        const list2 = item ? JSON.parse(item) : [];
+        const body={
+          user: userID,
+          mensajes: list2
         }
+        const config = {
+          headers: {
+              'Content-Type' : 'application/x-www-form-urlencoded',
+              'Access-Control-Allow-Origin' : '*'
+          }
+        }
+
+        const response = await axios.post(process.env.EXPO_PUBLIC_PATH+'/updateHistorial',body, config);
+        AsyncStorage.removeItem("id")
+        
       } catch(error){
 
       }

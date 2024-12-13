@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MoviesContext } from '@/context/MoviesContext';
+import { useEffect } from 'react';
 export default function LogIn({navigation}: any) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -81,11 +82,14 @@ export default function LogIn({navigation}: any) {
             const urlsearches = process.env.EXPO_PUBLIC_PATH + '/History'
             
             const responseSearches = await axios.get(urlsearches, headers2);
+            const listQueries = responseSearches.data.historial
             
+           await AsyncStorage.setItem("searches", JSON.stringify(listQueries));
             //console.log(favorites)
                 
             navigation.navigate("SearchingScreen")
         }catch(error : unknown){
+            console.log(error)
             if(axios.isAxiosError(error)){
                 if(error.response){
                     if(error.response.status == 400){
@@ -103,6 +107,37 @@ export default function LogIn({navigation}: any) {
         }
     }
 
+    const saveQueries = async () =>{
+        const id = await AsyncStorage.getItem("id");
+        const item = await AsyncStorage.getItem("searches")
+        if(id && item){
+            try{
+                
+                const list2 = item ? JSON.parse(item) : [];
+                const body={
+                    user: id,
+                    mensajes: list2
+                }
+
+                const config = {
+                    headers: {
+                        'Content-Type' : 'application/x-www-form-urlencoded',
+                        'Access-Control-Allow-Origin' : '*'
+                    }
+                }
+    
+                if(list2.length != 0 && list2.at(0).textoBuscado != null){
+                    const response = await axios.post(process.env.EXPO_PUBLIC_PATH+'/updateHistorial',body, config)
+            
+                }
+            }catch(error){
+
+            }
+        }
+    }
+    useEffect(()=>{
+        saveQueries();
+    })
     return (
         <ImageBackground
             source={{ uri: 'https://okdiario.com/img/2022/03/31/filmin-esta-lleno-de-obras-maestras-del-cine.jpg' }}
