@@ -7,6 +7,11 @@ import { Text } from 'react-native-paper';
 import { useState, useEffect } from 'react';
 import { userInfo } from '../data/data';
 import { TouchableOpacity } from 'react-native';
+import { useNavigation,  NavigationProp } from '@react-navigation/native';
+type RootStackParamList = {
+    InfoPage: {movieId : number};
+  };
+type InfoProp = NavigationProp<RootStackParamList, 'InfoPage'>;
 interface info{
     name: string,
     img: string,
@@ -16,11 +21,11 @@ interface info{
 }
 export default function SearchCard({name,img,id,review, year}:info){
     const [favorite, setFavorite] = useState(0);
-    
+    const navigation = useNavigation<InfoProp>();
     const addFavorite = () => {setFavorite(1)};
     const removeFavorite = () => {setFavorite(0)};
     const click = () =>{
-        console.log("print")
+        navigation.navigate('InfoPage', {movieId : id});
     }
     useEffect(()=>{
         if(userInfo.favoritos.includes(id)){
