@@ -1,7 +1,5 @@
 import { StyleSheet } from "react-native"
-import { SearchBar } from "react-native-screens"
 import { Dimensions } from 'react-native';
-import { orange100, white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 const screen = Dimensions.get('window')
 
@@ -254,4 +252,180 @@ export const movieStyles = StyleSheet.create({
         height: 45,
         marginBottom: 10,
     },
+})
+
+export const signUp = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        resizeMode: 'cover',
+    },
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(24, 9, 43, 0.5)',
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        width: '100%',
+    },
+    innerContainer: {
+        width: '100%',
+        maxWidth: 400,
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    logoContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 20,
+        paddingTop: 30,
+    },
+    image: {
+        width: 100,
+        height: 100,
+        marginRight: 10,
+    },
+    logoTitle: {
+        width: 200,
+        height: 120,
+        resizeMode: 'contain',
+    },
+    formContainer: {
+        width: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: '6%',
+        borderRadius: 15,
+        alignSelf: 'center',
+        marginTop: 20,
+        borderWidth: 0,
+    },
+    dialogContainer: {
+        backgroundColor: 'black'
+    },
+    dialogText: {
+        color: 'white'
+    },
+    title: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        marginBottom: '5.5%',
+        color: 'white',
+        textAlign: 'center',
+    },
+    input: {
+        width: '100%',
+        padding: 12,
+        marginBottom: '8%',
+        backgroundColor: 'white',
+        borderRadius: 5,
+    },
+    alternativeText: {
+        color: 'white',
+        marginTop: '6%',
+        textAlign: 'center',
+    },
+    secondChoice: {
+        color: '#b701c2',
+        marginTop: '6%',
+        textAlign: 'center',
+    }
+})
+
+export const logIn = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 20,
+    },
+    formContainer: {
+        width: '100%',
+        maxWidth: 400,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: '4.5%',
+        borderRadius: '4%',
+    },
+    title: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginBottom: '5.5%',
+        color: 'white',
+        textAlign: 'center',
+    },
+    error: {
+        width: '100%',
+        padding: 12,
+        marginBottom: '8%',
+        backgroundColor: 'white',
+        borderRadius: 5,
+        borderColor: 'red',
+        borderStyle: 'solid',
+        borderWidth: 1
+    },
+    errorText: {
+        color: 'red',
+        marginBottom: '6%',
+        textAlign: 'center',
+    },
+    image: {
+        alignContent: 'center',
+        width: 150,
+        height: 150,
+    },
+    logoTitle: {
+        width: 270,
+        height: 180,
+        resizeMode: 'contain',
+        marginBottom: '5%'
+    },
+    logoContainer: {
+        alignItems: 'center',
+        paddingTop: '6%'
+    }
+})
+
+export const OpeningStyle = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
+    slogan: {
+        color: 'white',
+        marginTop: 20,
+        textAlign: 'center',
+        fontSize: 20,
+        marginBottom: '22%',
+        paddingHorizontal: 5
+    },
+    image: {
+        alignContent: 'center',
+        width: 150,
+        height: 150,
+    },
+    logoTitle: {
+        width: 270,
+        height: 180,
+        resizeMode: 'contain',
+        marginBottom: '6%'
+    },
+    logoContainer: {
+        alignItems: 'center',
+        paddingTop: '6%'
+    },
+    buttons: {
+        width: '60%',
+        marginBottom: '5%'
+    }
 })

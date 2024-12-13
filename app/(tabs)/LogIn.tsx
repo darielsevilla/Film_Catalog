@@ -3,6 +3,7 @@ import { ImageBackground, Image, View, TextInput, Button, StyleSheet, Text, Keyb
 import axios from 'axios';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { signUp, logIn } from '../styles/style';
 
 export default function LogIn({ navigation }: any) {
     const [email, setEmail] = useState("");
@@ -23,9 +24,9 @@ export default function LogIn({ navigation }: any) {
     }
     const errorMessage = () => {
         if (error == 2) {
-            return (<Text style={styles.errorText}>Llene todos los campos</Text>)
+            return (<Text style={logIn.errorText}>Fill in all fields.</Text>)
         } else if (error == 1) {
-            return (<Text style={styles.errorText}>Correo y/o contraseña incorrecta</Text>)
+            return (<Text style={logIn.errorText}>Incorrect email and/or password.</Text>)
         } else {
             return (<></>);
         }
@@ -71,42 +72,43 @@ export default function LogIn({ navigation }: any) {
     return (
         <ImageBackground
             source={{ uri: 'https://okdiario.com/img/2022/03/31/filmin-esta-lleno-de-obras-maestras-del-cine.jpg' }}
-            style={styles.backgroundImage}
+            style={signUp.backgroundImage}
         >
 
             {/* Overlay degradado morado */}
-            <View style={styles.overlay}></View>
+            <View style={signUp.overlay}></View>
 
             <KeyboardAvoidingView
-                style={styles.container}>
+                style={logIn.container}>
 
                 {/* Logo y Titulo */}
-                <View style={styles.logoContainer}>
-                    <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
-                    <Image source={require('../../assets/images/Text.png')} style={styles.logoTitle} />
+                <View style={logIn.logoContainer}>
+                    <Image source={require('../../assets/images/Logo.png')} style={logIn.image} />
+                    <Image source={require('../../assets/images/Text.png')} style={logIn.logoTitle} />
                 </View>
 
                 {/* Contenido de login */}
-                <View style={styles.formContainer}>
-                    <Text style={styles.title}>Iniciar Sesión</Text>
+                <View style={logIn.formContainer}>
+                    <Text style={logIn.title}>Log In</Text>
 
                     <TextInput
-                        style={error == 0 ? styles.input : styles.error}
-                        placeholder="Correo Electrónico"
+                        style={error == 0 ? signUp.input : logIn.error}
+                        placeholder="Email"
                         keyboardType="email-address"
                         value={email}
                         onChangeText={updateEmail}
                     />
                     <TextInput
-                        style={error == 0 ? styles.input : styles.error}
-                        placeholder="Contraseña"
+                        style={error == 0 ? signUp.input : logIn.error}
+                        placeholder="Password"
                         secureTextEntry
                         value={password}
                         onChangeText={updatePassword}
                     />
                     {errorMessage()}
-                    <Button title="Iniciar Sesión" color="#6745b8" onPress={login} />
-                    <Text style={styles.alternativeText} onPress={() => { navigation.navigate("SignUp") }} >¿No tienes una cuenta? Da click aquí para Registrarte.</Text>
+                    <Button title="Log In" color="#6745b8" onPress={login} />
+                    <Text style={signUp.secondChoice} onPress={() => { navigation.navigate("SignUp") }} >
+                        <Text style={signUp.alternativeText}>Don't have an account?</Text> Sign Up.</Text>
                 </View>
             </KeyboardAvoidingView>
         </ImageBackground>
@@ -114,81 +116,5 @@ export default function LogIn({ navigation }: any) {
 };
 
 const styles = StyleSheet.create({
-    backgroundImage: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        resizeMode: 'cover',
-    },
-    overlay: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(24, 9, 43, 0.5)',
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        paddingHorizontal: 20,
-    },
-    formContainer: {
-        width: '100%',
-        maxWidth: 400,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        padding: '4.5%',
-        borderRadius: '4%',
-    },
-    title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: '5.5%',
-        color: 'white',
-        textAlign: 'center',
-    },
-    input: {
-        width: '100%',
-        padding: 12,
-        marginBottom: '8%',
-        backgroundColor: 'white',
-        borderRadius: 5,
-    },
-    error: {
-        width: '100%',
-        padding: 12,
-        marginBottom: '8%',
-        backgroundColor: 'white',
-        borderRadius: 5,
-        borderColor: 'red',
-        borderStyle: 'solid',
-        borderWidth: 1
-    },
-    alternativeText: {
-        color: 'white',
-        marginTop: '6%',
-        textAlign: 'center',
-    },
-    errorText: {
-        color: 'red',
-        marginBottom: '6%',
-        textAlign: 'center',
-    },
-    image: {
-        alignContent: 'center',
-        width: 150,
-        height: 150,
-    },
-    logoTitle: {
-        width: 270,
-        height: 180,
-        resizeMode: 'contain',
-        marginBottom: '5%'
-    },
-    logoContainer: {
-        alignItems: 'center',
-        paddingTop: '6%'
-    }
+
 });
