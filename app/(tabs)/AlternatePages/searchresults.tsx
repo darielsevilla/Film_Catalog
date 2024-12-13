@@ -12,6 +12,8 @@ import { TextInput, SafeAreaView} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MoviesContext } from '@/context/MoviesContext';
+import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import axios from 'axios';
 
 const MyComponent = (search: string) => {
     //use States necesarios
@@ -23,7 +25,7 @@ const MyComponent = (search: string) => {
         release_date: string,
         vote_average: string
     }
-
+    const [searching, setSearching] = useState(false);
     const navigation = useNavigation();
     const [list, setList] = useState<movies[]>([]);
     const {favorites, setFavorites} = useContext(MoviesContext);
@@ -66,7 +68,38 @@ const MyComponent = (search: string) => {
   
     const _handleSearch = () => console.log('Searching');
   
-   
+    const searchOptions = async () =>{
+        setSearching(true);
+        console.log("entro")
+        try{
+            let url = process.env.EXPO_PUBLIC_PATH + '/Search';
+            const id = await AsyncStorage.getItem("id");
+            const text = search;
+        
+            const headers = {
+                params: {
+                    userid : id,
+                    text : search
+                }
+            }        
+            console.log(url);
+        
+            const response = await axios.get(url, headers);
+            const pelisExtra = response.data.peliculas;
+            console.log(pelisExtra);
+            const peliculasMapeadas = pelisExtra.map((peli : any)=>({
+                id : peli.id,
+                title: peli.title,
+                release_date: peli.year,
+                vote_average: peli.rating,
+                poster_path: peli.poster
+            }))
+            setList([...list, ...peliculasMapeadas])
+        }catch(error){
+
+        }
+        setSearching(false);
+    }
     
     const load =  () => {
     
@@ -85,9 +118,9 @@ const MyComponent = (search: string) => {
                 </View>)}
 
                 <View style={cardStyles.moreButton}>
-                    <Button icon="magnify-plus-outline"  buttonColor= "#7f7f7f" mode="contained" onPress={() => console.log('Pressed')}>
+                    {!searching?<Button icon="magnify-plus-outline"  buttonColor= "#7f7f7f" mode="contained" onPress={searchOptions}>
                         Buscar Mas
-                    </Button>
+                    </Button>:<ActivityIndicator animating={true} color={MD2Colors.red800} />}
                 </View>
                 </>);
         }else{
@@ -101,18 +134,16 @@ const MyComponent = (search: string) => {
                 </View>
 
                 <View style={cardStyles.moreButton}>
-                    <Button icon="magnify-plus-outline"  buttonColor= "#7f7f7f" mode="contained" onPress={() => console.log('Pressed')}>
+                    {!searching?<Button icon="magnify-plus-outline"  buttonColor= "#7f7f7f" mode="contained" onPress={searchOptions}>
                         Buscar Mas
-                    </Button>
+                    </Button>:<ActivityIndicator animating={true} color={MD2Colors.white} size={'large'} />}
                 </View>
             </>);
         }
         
     }
 
-    const searchOptions = () =>{
-
-    }
+    
   
     const TopBar = () =>{
         return(<>
