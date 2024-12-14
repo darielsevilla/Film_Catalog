@@ -15,12 +15,24 @@ export const customStyle = StyleSheet.create({
         width: screen.width * 0.75,
         marginRight: 10
     },
-    background: {
-        backgroundColor: 'gray',
-        color: 'white'
+    background:{
+        backgroundColor:'gray',
+        color:'white'
+    },
+    containerInfo : {
+        height: 'auto',
+        minHeight: '100%',
+        width: '100%',
+        backgroundColor: '#18092a',
+        
+    },
+    backgroundSearchBar : {
+        backgroundColor: "#332246"
+    },
+    backgroundNormal : {
+        backgroundColor: "#18092a"
     }
-
-})
+ })
 
 export const cardStyles = StyleSheet.create({
     searchcard: {
@@ -49,8 +61,11 @@ export const cardStyles = StyleSheet.create({
         flex: 1,
         fontFamily: 'Roboto',
     },
-    subtitleTextColor: {
-        color: 'gray'
+    titleTextColor:{
+        color:'white'
+    },
+    subtitleTextColor:{
+        color:'#b1a4c2'
     },
     maxHeight: {
         height: '100%'
@@ -58,9 +73,13 @@ export const cardStyles = StyleSheet.create({
     textContainer: {
         flex: 0.9
     },
-    moreButton: {
-        marginLeft: '10%',
-        marginRight: '10%'
+    textColor:{
+        color:'gray'
+    },
+    moreButton:{
+        marginLeft:  '10%',
+        marginRight: '10%',
+        marginBottom: 20
     },
     notFoundIcon: {
         width: '100%',
