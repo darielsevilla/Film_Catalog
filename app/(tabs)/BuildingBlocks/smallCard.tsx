@@ -1,23 +1,36 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
+import { useNavigation,  NavigationProp } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native'; 
+type RootStackParamList = {
+    InfoPage: {movieId : number};
+  };
+type InfoProp = NavigationProp<RootStackParamList, 'InfoPage'>;
+
 
 interface MovieProps {
-  id: number;
-  name: string;
-  rating: number;
-  year: number;
-  poster: string;
-  overview: string;
+  id: string,
+  title: string,
+  poster_path: string,
+  release_date: string,
+  vote_average: string
 }
 
-const SmallCard: React.FC<MovieProps> = ({ rating, poster }) => {
+
+const SmallCard: React.FC<MovieProps> = ({ vote_average, poster_path, id }) => {
+  const navigation = useNavigation<InfoProp>();
+  const click = () =>{
+    navigation.navigate('InfoPage', {movieId : Number(id)});
+  }  
   return (
+    <TouchableOpacity onPress={click}> 
     <View style={styles.card}>
-      <Image source={{ uri: poster }} style={styles.poster} />
+      <Image source={{ uri: poster_path }} style={styles.poster} />
       <View style={styles.ratingContainer}>
-        <Text style={styles.ratingText}>{rating}%</Text>
+        <Text style={styles.ratingText}>{vote_average}</Text>
       </View>
     </View>
+    </TouchableOpacity>
   );
 };
 
