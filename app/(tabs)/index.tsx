@@ -10,13 +10,18 @@ import { searchData } from './data/data';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//lista global 
+import { FavoriteMovies } from '@/context/MoviesContext';
 //tabs
 import SearchingPage from './AlternatePages/searchingpage';
 import SearchResults from './AlternatePages/searchresults';
 import LogIn from './LogIn'
 import OpeningS from './AlternatePages/OpeningScreen';
 import SignUp from './SignUp';
+import InfoPage from './infopage';
 import MainScreen from './mainscreen';
+import { AppState } from 'react-native';
+import axios from 'axios';
 
 type RootStackParamList = {
   SearchingScreen: undefined;
@@ -24,8 +29,10 @@ type RootStackParamList = {
   LogIn: undefined;
   OpeningScreen: undefined;
   SignUp: undefined;
-  MainScreen : undefined;
+  InfoPage: { movieId: number };
+  MainScreen: undefined;
 };
+
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const templateScreen = () => {
@@ -88,20 +95,56 @@ export default function HomeScreen() {
   useEffect(() => {
     saveList();
 
+    const appListener = AppState.addEventListener('change', closeEvt)
+
+    return () => {
+      appListener.remove();
+  };
   }, [])
+  const closeEvt = async (nextAppState: string) => {
+    if (nextAppState === 'background') {       
+      try{
+        
+        const userID =  await AsyncStorage.getItem("id")
+        const item = await AsyncStorage.getItem("searches")
+        const list2 = item ? JSON.parse(item) : [];
+        const body={
+          user: userID,
+          mensajes: list2
+        }
+        const config = {
+          headers: {
+              'Content-Type' : 'application/x-www-form-urlencoded',
+              'Access-Control-Allow-Origin' : '*'
+          }
+        }
+
+        const response = await axios.post(process.env.EXPO_PUBLIC_PATH+'/updateHistorial',body, config);
+        AsyncStorage.removeItem("id")
+        
+      } catch(error){
+
+      }
+      
+    }
+  };
   const themes = MD3DarkTheme;
   const theme = useTheme();
   return (
     <>
       {/*search bar */}
+      <FavoriteMovies>
       <Stack.Navigator initialRouteName='OpeningScreen'>
+
         <Stack.Screen name="SearchingScreen" component={SearchingPage} options={{ headerShown: false }} />
         <Stack.Screen name="SearchResults" component={SearchResults} options={{ headerShown: false }} />
         <Stack.Screen name="LogIn" component={LogIn} options={{ headerShown: false }} />
         <Stack.Screen name="OpeningScreen" component={OpeningS} options={{ headerShown: false }} />
         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+        <Stack.Screen name="InfoPage" component={InfoPage} options={{ headerShown: false }} />
         <Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
+      </FavoriteMovies>
     </>
   );
 }

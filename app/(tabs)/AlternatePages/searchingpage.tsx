@@ -5,13 +5,16 @@ import { Icon, MD3Colors } from 'react-native-paper';
 import { Card, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from 'react-native-paper';
-import { cardStyles } from '../../styles/style';
-import { TouchableOpacity } from 'react-native';
+import { cardStyles, customStyle } from '../../styles/style';
+import { TouchableOpacity, SafeAreaView } from 'react-native';
 import { Divider } from 'react-native-paper';
+
+
 export default function SearchingPage({ navigation }: any){
     interface search{
-        queue: string;
-        timestamp:string;
+        
+        textoBuscado: string;
+        timestamp:  string;
     }
     const [searchQueue, setSearchQueue] = useState("")
     const [searchList, setSearchList] = useState<search[]>([])
@@ -24,21 +27,34 @@ export default function SearchingPage({ navigation }: any){
         }))
 
     }
+
     const submit = async (newQueue : string) =>{
-        if(searchList.find(item => item.queue.toLowerCase() === newQueue.toLowerCase()) === undefined){
-            if(searchList.length < 5){
-                setSearchList([
-                    ...searchList,
-                    { queue: newQueue, timestamp: new Date().toISOString() }
-                  ].sort((a, b) => (a.timestamp < b.timestamp ? 1 : a.timestamp > b.timestamp ? -1 : 0)));
-            }else{
-                const listaTempo = searchList.sort((a, b) => (a.timestamp < b.timestamp ? 1 : a.timestamp > b.timestamp ? -1 : 0));
-                listaTempo.pop();
-                setSearchList([{queue: newQueue, timestamp: new Date().toISOString()}, ...listaTempo])
+        let updatedList: search[] = [];
+        if(newQueue==""){
+            navigation.back();
+        }else{
+            if(searchList.find(item => item.textoBuscado.toLowerCase() === newQueue.toLowerCase()) === undefined){
+                if(searchList.length < 5){
+                    updatedList=[
+                        ...searchList,
+                        { textoBuscado: newQueue, timestamp: new Date().toISOString() }
+                    ].sort((a, b) => (a.timestamp < b.timestamp ? 1 : a.timestamp > b.timestamp ? -1 : 0));
+                }else{
+                    const listaTempo = searchList.sort((a, b) => (a.timestamp < b.timestamp ? 1 : a.timestamp > b.timestamp ? -1 : 0));
+                    listaTempo.pop();
+                    updatedList=[{textoBuscado: newQueue, timestamp: new Date().toISOString()}, ...listaTempo]
+                }
+                
             }
-            const item = await AsyncStorage.setItem("searches", JSON.stringify(searchList))
+            setSearchList(updatedList);
+            const item = await AsyncStorage.setItem("searches", JSON.stringify(updatedList))
+            const item2 = await AsyncStorage.getItem("searches");
+            
+            navigation.navigate("SearchResults", { search: newQueue }); 
         }
-        navigation.navigate("SearchResults", { search: newQueue }); 
+        
+        
+        
     }
     const press = (newQueue : string) =>{
         setSearchQueue(newQueue)
@@ -53,7 +69,7 @@ export default function SearchingPage({ navigation }: any){
         if(searchQueue == ""){
             return(<>
                 {searchList.map((item)=>
-                    <TouchableOpacity key={item.queue} onPress={()=>{press(item.queue)}}> 
+                    <TouchableOpacity key={item.textoBuscado} onPress={()=>{press(item.textoBuscado)}}> 
                     <Card elevation={0}>
                     <Card.Content  style={cardStyles.searchCardFlex}>
         
@@ -67,7 +83,7 @@ export default function SearchingPage({ navigation }: any){
                         {/*search info*/}
                         
                         <View style={cardStyles.textContainer}>
-                        <Text>{item.queue}</Text>
+                        <Text style={cardStyles.textColor}>{item.textoBuscado}</Text>
                         </View>
                         
                     </Card.Content>
@@ -78,8 +94,8 @@ export default function SearchingPage({ navigation }: any){
             </>);
         }else{
             return(<>
-                {searchList.filter(item => item.queue.toLowerCase().includes(searchQueue.toLowerCase()))?.map((item)=>
-                    <TouchableOpacity key={item.queue} onPress={()=>{press(item.queue)}}> 
+                {searchList.filter(item => item.textoBuscado.toLowerCase().includes(searchQueue.toLowerCase()))?.map((item)=>
+                    <TouchableOpacity key={item.textoBuscado} onPress={()=>{press(item.textoBuscado)}}> 
                     <Card elevation={0}>
                     <Card.Content  style={cardStyles.searchCardFlex}>
         
@@ -93,7 +109,7 @@ export default function SearchingPage({ navigation }: any){
                         {/*search info*/}
                         
                         <View style={cardStyles.textContainer}>
-                        <Text>{item.queue}</Text>
+                        <Text style={cardStyles.textColor}>{item.textoBuscado}</Text>
                         </View>
                         
                     </Card.Content>
@@ -111,20 +127,22 @@ export default function SearchingPage({ navigation }: any){
     };
 
     return(<>
-        <Appbar.Header>
-            <Appbar.BackAction  />
+        <Appbar.Header style = {customStyle.backgroundSearchBar}>
+            <Appbar.BackAction color='white' onPress={()=>{{navigation.goBack()}}}/>
             <Appbar.Content title={<TextInput
-              style={{ color: "black", fontSize: 18 }}
+              style={{ color: 'white', fontSize: 18 }}
               value={searchQueue}
+                
               onChangeText={handleTitleChange}
               onSubmitEditing={()=>{submit}}
-              placeholder="Busque una pelicula o una serie"
-              placeholderTextColor="lightgray"
+              placeholder="Search for movies or tv shows"
+              placeholderTextColor="white"
             />}
             /> 
-            <Appbar.Action icon="magnify" onPress={()=>{submit(searchQueue)}}/>
+            <Appbar.Action icon="magnify"  color='white' onPress={()=>{submit(searchQueue)}}/>
         </Appbar.Header>
-
+        <SafeAreaView style = {customStyle.containerInfo}>
           {loadSearches()}
+          </SafeAreaView>
     </>);
 }
