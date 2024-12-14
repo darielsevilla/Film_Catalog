@@ -113,13 +113,13 @@ export default function SearchCard({name,img,id,review, year}:info){
                 <View style={cardStyles.sideContainer}>
                     <View style={cardStyles.textContainer}>
                         <Text variant="titleMedium"  style={cardStyles.titleTextColor}>{name}</Text>
-                        <Text style={cardStyles.subtitleTextColor} variant= "titleSmall">{year}, puntaje promedio: {review}%</Text>
+                        <Text style={cardStyles.subtitleTextColor} variant= "titleSmall">{year != 0? year : 'N/A'}, rating: {review}</Text>
                     </View>
                     
                     {(favorite == 0) ?( <Button key="notFavorite" icon="plus" mode="contained" buttonColor='#6745b8' onPress={addFavorite}>
-                        Favorito
-                    </Button>):(<Button key="favorite" icon="check" mode="contained" buttonColor='#7f7f7f' onPress={removeFavorite}>
-                        Quitar favorito
+                        Favorite
+                    </Button>):(<Button key="favorite" icon="check" mode="contained" buttonColor='#b701c2' onPress={removeFavorite}>
+                        Remove favorite
                     </Button>)}    
                 </View>
                 

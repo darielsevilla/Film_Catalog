@@ -68,7 +68,7 @@ export const cardStyles = StyleSheet.create({
         color:'white'
     },
     subtitleTextColor:{
-        color:'#D9D9D9'
+        color:'#b1a4c2'
     },
     maxHeight: {
         height: '100%'
@@ -81,7 +81,8 @@ export const cardStyles = StyleSheet.create({
     },
     moreButton:{
         marginLeft:  '10%',
-        marginRight: '10%'
+        marginRight: '10%',
+        marginBottom: 20
     },
     notFoundIcon:{
         width: '100%',

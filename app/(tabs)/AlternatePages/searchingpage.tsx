@@ -30,26 +30,31 @@ export default function SearchingPage({ navigation }: any){
 
     const submit = async (newQueue : string) =>{
         let updatedList: search[] = [];
-        if(searchList.find(item => item.textoBuscado.toLowerCase() === newQueue.toLowerCase()) === undefined){
-            if(searchList.length < 5){
-                updatedList=[
-                    ...searchList,
-                    { textoBuscado: newQueue, timestamp: new Date().toISOString() }
-                  ].sort((a, b) => (a.timestamp < b.timestamp ? 1 : a.timestamp > b.timestamp ? -1 : 0));
-            }else{
-                const listaTempo = searchList.sort((a, b) => (a.timestamp < b.timestamp ? 1 : a.timestamp > b.timestamp ? -1 : 0));
-                listaTempo.pop();
-                updatedList=[{textoBuscado: newQueue, timestamp: new Date().toISOString()}, ...listaTempo]
+        if(newQueue==""){
+            navigation.back();
+        }else{
+            if(searchList.find(item => item.textoBuscado.toLowerCase() === newQueue.toLowerCase()) === undefined){
+                if(searchList.length < 5){
+                    updatedList=[
+                        ...searchList,
+                        { textoBuscado: newQueue, timestamp: new Date().toISOString() }
+                    ].sort((a, b) => (a.timestamp < b.timestamp ? 1 : a.timestamp > b.timestamp ? -1 : 0));
+                }else{
+                    const listaTempo = searchList.sort((a, b) => (a.timestamp < b.timestamp ? 1 : a.timestamp > b.timestamp ? -1 : 0));
+                    listaTempo.pop();
+                    updatedList=[{textoBuscado: newQueue, timestamp: new Date().toISOString()}, ...listaTempo]
+                }
+                
             }
+            setSearchList(updatedList);
+            const item = await AsyncStorage.setItem("searches", JSON.stringify(updatedList))
+            const item2 = await AsyncStorage.getItem("searches");
             
+            navigation.navigate("SearchResults", { search: newQueue }); 
         }
-        setSearchList(updatedList);
         
-        const item = await AsyncStorage.setItem("searches", JSON.stringify(updatedList))
-            
-        const item2 = await AsyncStorage.getItem("searches");
-            
-        navigation.navigate("SearchResults", { search: newQueue }); 
+        
+        
     }
     const press = (newQueue : string) =>{
         setSearchQueue(newQueue)
@@ -130,7 +135,7 @@ export default function SearchingPage({ navigation }: any){
                 
               onChangeText={handleTitleChange}
               onSubmitEditing={()=>{submit}}
-              placeholder="Busque una pelicula o una serie"
+              placeholder="Search for movies or tv shows"
               placeholderTextColor="white"
             />}
             /> 
