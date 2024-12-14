@@ -65,8 +65,8 @@ const MyComponent = (search: string) => {
     },[]);
 
     //metodos de botones
-    const _goBack = () => {navigation.goBack()};
-  
+    const _goBack = () => { navigation.goBack() };
+
     const _handleSearch = () => console.log('Searching');
   
     const searchOptions = async () =>{
@@ -126,13 +126,13 @@ const MyComponent = (search: string) => {
                         Search More
                     </Button>:<ActivityIndicator animating={true} color={MD2Colors.white} />}
                 </View>
-                </>);
-        }else{
-            return(<>
+            </>);
+        } else {
+            return (<>
                 <View style={cardStyles.moreButton}>
                     <Image
-                    source={require('@/assets/customImages/warning-not-found.png')}
-                    style={cardStyles.notFoundIcon}
+                        source={require('@/assets/customImages/warning-not-found.png')}
+                        style={cardStyles.notFoundIcon}
                     />
                     <Text style = {cardStyles.textCenter} variant="labelSmall">No loaded movies matched</Text>
                 </View>
@@ -157,24 +157,24 @@ const MyComponent = (search: string) => {
             /> 
             <Appbar.Action icon="magnify"color={"white"} onPress={_goBack} />
 
-          </Appbar.Header></>);
+        </Appbar.Header></>);
     }
-    return(
+    return (
         <>
-        {TopBar()}
+            {TopBar()}
 
       {mainSearch?<ActivityIndicator animating={true} color={MD2Colors.white} size={'large'} /> :load()}
         
       </>
     );
-  };
+};
 
 
 
-interface SearchString{
+interface SearchString {
     search: string
 }
-export default function SearchResults({ route }: { route: { params: SearchString } }){
+export default function SearchResults({ route }: { route: { params: SearchString } }) {
     const { search } = route.params;
     return(<>
          <ScrollView style = {customStyle.containerInfo}>
@@ -182,5 +182,5 @@ export default function SearchResults({ route }: { route: { params: SearchString
         </ScrollView>
 
     </>)
-    
+
 }

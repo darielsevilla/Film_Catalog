@@ -10,6 +10,11 @@ import { TouchableOpacity } from 'react-native';
 import { MoviesContext } from '@/context/MoviesContext';
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation,  NavigationProp } from '@react-navigation/native';
+type RootStackParamList = {
+    InfoPage: {movieId : number};
+  };
+type InfoProp = NavigationProp<RootStackParamList, 'InfoPage'>;
 interface info{
     name: string,
     img: string,
@@ -78,8 +83,10 @@ export default function SearchCard({name,img,id,review, year}:info){
         });
     };
 
+    const navigation = useNavigation<InfoProp>();
+   
     const click = () =>{
-        console.log("print")
+        navigation.navigate('InfoPage', {movieId : id});
     }
 
     const load = async () =>{
