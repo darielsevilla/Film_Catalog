@@ -1,76 +1,53 @@
-// Importar datos
 import React from "react";
-import { loadedMovies } from "./app/(tabs)/data/data.tsx";
+import { View, Text, Image, StyleSheet } from "react-native";
 
-// Definición del tipo de props
 interface MovieProps {
   id: number;
   name: string;
   rating: number;
   year: number;
   poster: string;
-  language: string;
   overview: string;
 }
 
-// Componente SmallCard
-const SmallCard: React.FC<MovieProps> = ({ name, rating, year, poster, overview }) => {
+const SmallCard: React.FC<MovieProps> = ({ rating, poster }) => {
   return (
-    <div style={styles.card}>
-      <img src={poster} alt={name} style={styles.poster} />
-      <div style={styles.content}>
-        <h2 style={styles.title}>{name}</h2>
-        <p style={styles.details}>Year: {year} | Rating: {rating}%</p>
-        <p style={styles.overview}>{overview}</p>
-      </div>
-    </div>
+    <View style={styles.card}>
+      <Image source={{ uri: poster }} style={styles.poster} />
+      <View style={styles.ratingContainer}>
+        <Text style={styles.ratingText}>{rating}%</Text>
+      </View>
+    </View>
   );
 };
 
-// Estilos en línea
-const styles = {
+const styles = StyleSheet.create({
   card: {
-    display: "flex",
-    flexDirection: "row",
-    border: "1px solid #ddd",
-    borderRadius: "8px",
+    width: 120,
+    height: 180,
+    margin: 10,
+    borderRadius: 8,
     overflow: "hidden",
-    margin: "10px",
-    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+    position: "relative",
   },
   poster: {
-    width: "120px",
-    height: "180px",
-    objectFit: "cover",
+    width: "100%",
+    height: "100%",
   },
-  content: {
-    padding: "10px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
+  ratingContainer: {
+    position: "absolute",
+    top: 8,
+    left: 8,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    paddingHorizontal: 4,
+    paddingVertical: 4,
+    borderRadius: 5,
   },
-  title: {
-    fontSize: "1.2em",
-    margin: "0 0 5px",
+  ratingText: {
+    color: "#FFD700",
+    fontWeight: "bold",
+    fontSize: 14,
   },
-  details: {
-    fontSize: "0.9em",
-    color: "#555",
-  },
-  overview: {
-    fontSize: "0.8em",
-    color: "#777",
-  },
-};
+});
 
-const MovieList: React.FC = () => {
-  return (
-    <div>
-      {loadedMovies.movies.map((movie) => (
-        <SmallCard key={movie.id} {...movie} />
-      ))}
-    </div>
-  );
-};
-
-export default smallCard;
+export default SmallCard;

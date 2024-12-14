@@ -94,7 +94,7 @@ export default function HomeScreen() {
   return (
     <>
       {/*search bar */}
-      <Stack.Navigator initialRouteName='mainscreen'>
+      <Stack.Navigator initialRouteName='OpeningScreen'>
         <Stack.Screen name="SearchingScreen" component={SearchingPage} options={{ headerShown: false }} />
         <Stack.Screen name="SearchResults" component={SearchResults} options={{ headerShown: false }} />
         <Stack.Screen name="LogIn" component={LogIn} options={{ headerShown: false }} />
