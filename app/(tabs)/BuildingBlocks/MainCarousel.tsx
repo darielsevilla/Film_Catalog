@@ -1,6 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Text, View, Image, StyleSheet, Dimensions } from 'react-native';
+import { FlatList, Text, View, Image, StyleSheet, Dimensions, ImageBackground } from 'react-native';
 import { ImageSourcePropType } from 'react-native';
+import { movieStyles, infoStyles } from '../../styles/style';
+
+import axios from 'axios';
+import { Button, SafeAreaView } from 'react-native';
+import { Chip } from 'react-native-paper';
+import { ScrollView } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { TouchableOpacity } from 'react-native';
+import { WebView } from 'react-native-webview';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Card } from 'react-native-paper';
 
 type ImageItem = {
     image: ImageSourcePropType | string,
@@ -71,28 +82,29 @@ const MainCarousel = () => {
 
     const renderItem = ({ item }: { item: ImageItem }) => {
         return (
-            <View style={styles.item}>
-                <Image
-                    source={typeof item.image === 'string' ? { uri: item.image } : item.image}
+            <SafeAreaView style={styles.item}>
+                <ImageBackground
                     style={styles.image}
+                    source={typeof item.image === 'string' ? { uri: item.image } : item.image}
                 />
                 <View style={styles.overlay}>
-                    <Text style={styles.title}>{item.title}</Text>
                     <View style={styles.Container}>
-                        <Text style={styles.year}> {item.year} </Text>
-                        <Text style={styles.stars}>{renderStars(item.rating)}</Text>
+                        <Text style={styles.title}>{item.title}</Text>
+                        <Text style={styles.year}>({item.year})</Text>
                     </View>
-                    <View style={styles.Container}>
-                        {item.genres.map((genre, index) => (
-                            <View key={index} style={styles.genreBox}>
-                                <Text style={styles.genreText}>{genre}</Text>
-                            </View>
+                    <Text style={styles.stars}>{renderStars(item.rating)}</Text>
+                    <View style={infoStyles.topTextContainer}>
+                        {item?.genres.map((genre) => (
+                            <Chip style={infoStyles.chipStyle} key={genre} mode="outlined">
+                                <Text style={infoStyles.chipText}>{genre}</Text>
+                            </Chip>
                         ))}
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     };
+
 
     return (
         <View style={{ flex: 1, backgroundColor: '#333' }}>
@@ -111,17 +123,15 @@ const MainCarousel = () => {
 
 const styles = StyleSheet.create({
     item: {
-        position: 'relative',
-        alignItems: 'center',
+        width: Dimensions.get('window').width, // Ancho total de la pantalla
+        height: Dimensions.get('window').height * 0.5, // Altura ajustable según la necesidad
         justifyContent: 'center',
-        //backgroundColor: '#444',
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height * 0.5,
+        alignItems: 'center',
     },
     image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'stretch',
+        width: Dimensions.get('window').width, // Ancho total de la pantalla
+        height: Dimensions.get('window').height * 0.5, // Altura ajustable según la necesidad
+        resizeMode: 'cover', // Mantiene la proporción de la imagen
     },
     overlay: {
         position: 'relative',
@@ -141,14 +151,16 @@ const styles = StyleSheet.create({
     },
     stars: {
         fontSize: 18,
-        color: 'yellow', 
-        marginLeft: 10,
+        color: 'yellow',
+        //marginLeft: 10,
+        marginBottom: 10,
         fontWeight: 'bold',
     },
     year: {
         fontSize: 18,
         color: 'white',
-        marginRight: 10,
+        marginLeft: 10,
+        marginTop: 12
     },
     rating: {
         fontSize: 18,
