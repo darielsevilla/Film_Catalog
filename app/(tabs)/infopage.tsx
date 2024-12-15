@@ -142,7 +142,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
         try{
             if(movie){
                 const user_id = await AsyncStorage.getItem("id") 
-                console.log(user_id)
+                
                 const headers = {
                     params: {
                         movie: movie.id,

@@ -24,6 +24,7 @@ import InfoPage from './infopage';
 import MainScreen from './mainscreen';
 import { AppState } from 'react-native';
 import axios from 'axios';
+import BottomNavigationBar from 'react-native-paper/lib/typescript/components/BottomNavigation/BottomNavigationBar';
 //import { useEffect } from 'react';
 ///import { AsyncStorage } from 'react-native';
 
@@ -146,8 +147,7 @@ export default function HomeScreen() {
       {/*search bar */}
       <FavoriteMovies>
         <Stack.Navigator initialRouteName='OpeningScreen'>
-
-          <Stack.Screen name="SearchingScreen" component={SearchingPage} options={{ headerShown: false }} />
+          <Stack.Screen name="SearchingScreen" component={SearchingPage} options={{ headerShown: false}} />
           <Stack.Screen name="SearchResults" component={SearchResults} options={{ headerShown: false }} />
           <Stack.Screen name="LogIn" component={LogIn} options={{ headerShown: false }} />
           <Stack.Screen name="OpeningScreen" component={OpeningS} options={{ headerShown: false }} />

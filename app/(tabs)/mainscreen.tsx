@@ -6,9 +6,13 @@ import { useState, useEffect, useContext } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MoviesContext } from '@/context/MoviesContext';
 import LinearGradient from "react-native-linear-gradient";
-
-
-
+import NavBar from "./BuildingBlocks/UserNavbar";
+import MainCarousel from "./BuildingBlocks/MainCarousel";
+import { Provider as PaperProvider } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { customStyle, infoStyles } from "../styles/style";
+import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { Button, SafeAreaView } from 'react-native';
 interface movies {
   id: string,
   title: string,
@@ -18,11 +22,14 @@ interface movies {
 }
 
 export default function MainScreen() {
+  const [loading, setLoading] = useState(false);
   const [lista, setList] = useState<Record<string, movies[]>>({})
   const load = async () => {
+    setLoading(true);
     const movies = await AsyncStorage.getItem("loadedFilms");
     const tempoList: Record<string, movies[]> = JSON.parse(movies ? movies : "[]");
     await setList(tempoList);
+    setLoading(false);
   }
   const { favorites, setFavorites } = useContext(MoviesContext);
 
@@ -30,13 +37,23 @@ export default function MainScreen() {
   useEffect(() => {
     load();
   }, [])
+  if (loading) {
+    return (
+        <SafeAreaView style={infoStyles.containerInfo}>
+            <ActivityIndicator style={customStyle.marginTop} animating={true} color={MD2Colors.white} size={'large'} />
+        </SafeAreaView>
+    );
+}
   return (
-    <><LinearGradient
-      colors={["#18092a", "#1A001F"]}
-      style={styles.gradientBackground}
-    >
-      <ScrollView style={styles.container}>
+    <>
+    
+    <PaperProvider>
+
+      <ScrollView>
+        <NavBar />
+        <MainCarousel />
         {/* Carrusel horizontal */}
+        <View style={styles.container}>
         {(favorites.length != 0) ? <Text style={styles.sectionTitle}>Favoritos</Text> : <></>}
         <ScrollView
           horizontal
@@ -58,8 +75,10 @@ export default function MainScreen() {
               <SmallCard key={movie.id} {...movie} />
             ))}
           </ScrollView></View>)}
+          </View>
       </ScrollView>
-    </LinearGradient></>
+      </PaperProvider>
+    </>
 
   );
 }
@@ -71,6 +90,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    backgroundColor: "#1A001F"
   },
   sectionTitle: {
     fontSize: 24,

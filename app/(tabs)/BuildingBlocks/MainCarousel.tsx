@@ -22,7 +22,8 @@ type ImageItem = {
 };
 
 const MainCarousel = () => {
-    const images: ImageItem[] = [
+    const [images, setImages] = useState<ImageItem[]>([]);
+    /*let images: ImageItem[] = [
         {
             image: require('../../../assets/images/Logo02.png'),
             title: 'Movie Title 1',
@@ -51,8 +52,25 @@ const MainCarousel = () => {
             rating: 6.8,
             genres: ['Horror', 'Mystery']
         },
-    ];
+    ];*/
+    const load = async () =>{
+        
+        const response =await axios.get(process.env.EXPO_PUBLIC_PATH + '/getPeliculasCarousel');
+        const loadedImages: ImageItem[] = response.data.peliculas.map((pelicula: any) => ({
+            image: pelicula.background, 
+            title: pelicula.title,
+            year: Number(pelicula.year),
+            rating: Number(pelicula.rating),
+            genres: pelicula.genres, 
+          }));
+          console.log(response.data)
+        setImages(loadedImages)
+        const interval = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % response.data.peliculas.length);
+        }, 3000);
 
+        return () => clearInterval(interval);
+    }
     const flatListRef = useRef<FlatList>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const renderStars = (rating: number, maxStars = 5) => {
@@ -62,13 +80,9 @@ const MainCarousel = () => {
         );
         return stars.join(' '); // Combina en una sola línea
     };
-
+  
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 3000);
-
-        return () => clearInterval(interval);
+        load();
     }, []);
 
     useEffect(() => {
@@ -108,6 +122,7 @@ const MainCarousel = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#333' }}>
+            {images.length > 0 ? (
             <FlatList
                 ref={flatListRef}
                 data={images}
@@ -117,6 +132,11 @@ const MainCarousel = () => {
                 showsHorizontalScrollIndicator={false}
                 pagingEnabled
             />
+        ) : (
+            <Text style={{ color: 'white', textAlign: 'center', marginTop: 20 }}>
+                Loading...
+            </Text>
+        )}
         </View>
     );
 };
@@ -127,6 +147,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height * 0.5, // Altura ajustable según la necesidad
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: "#1A001F"
     },
     image: {
         width: Dimensions.get('window').width, // Ancho total de la pantalla
@@ -138,8 +159,9 @@ const styles = StyleSheet.create({
         bottom: 160,
         left: 0,
         width: '100%',
-        padding: 10,
-        //backgroundColor: 'rgba(0, 0, 0, 0.6)', // Background for better visibility
+        marginBottom:0,
+       
+        paddingBottom: 5,
         flexDirection: 'column',
         alignItems: 'flex-start',
     },

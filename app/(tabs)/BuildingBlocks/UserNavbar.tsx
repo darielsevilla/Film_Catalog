@@ -1,20 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Avatar, IconButton, Menu } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation,  NavigationProp } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+type RootStackParamList = {
+    SearchingScreen: undefined;
+    LogIn : undefined;
+  };
+type InfoProp = NavigationProp<RootStackParamList, 'SearchingScreen' | 'LogIn'>;
 const Navbar = () => {
+    
     const [visible, setVisible] = useState(false); // Estado para mostrar/ocultar el menú
-    const navigation = useNavigation();
+    const navigation = useNavigation<InfoProp>();
+  const click = () =>{
+    navigation.navigate('SearchingScreen');
+  }  
+
+    const [name, setName] = useState("");
+    const [apellido, setApellido] = useState("");
 
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
-
+    const load = async () =>{
+        const name = await AsyncStorage.getItem("name");
+        const lName = await AsyncStorage.getItem("lastName");
+        setName(name ? name : "nombre");
+        setApellido(lName? lName : "apellido");
+    }
     const handleLogout = () => {
-        closeMenu();
-        console.log('Logout pressed'); // Aquí puedes redirigir a la pantalla de login o limpiar el estado
+        navigation.navigate('LogIn');
+        console.log('Logout pressed'); 
     };
 
+    useEffect(()=>{
+        load();
+    },[]);
+    
     return (
         <View style={styles.navbar}>
             {/* Logo de la aplicación a la izquierda */}
@@ -30,7 +51,7 @@ const Navbar = () => {
                     icon="magnify"
                     size={28}
                     iconColor="white"
-                    onPress={() => console.log('Search pressed')}
+                    onPress={click}
                     style={styles.searchIcon}
                 />
 
@@ -40,7 +61,7 @@ const Navbar = () => {
                     onDismiss={closeMenu}
                     anchor={
                         <View style={styles.userContainer} onTouchStart={openMenu}>
-                            <Text style={styles.userName}>Nombre Apellido</Text>
+                            <Text style={styles.userName}>{name} {apellido}</Text>
                             <Avatar.Image
                                 size={40}
                                 source={require('../../../assets/images/Logo.png')}
@@ -53,7 +74,7 @@ const Navbar = () => {
                     <Menu.Item
                         onPress={handleLogout}
                         title="Logout"
-                        leadingIcon="logout" // Ícono de logout
+                        leadingIcon="logout"
                         style={styles.logoutMenuItem} // Estilo personalizado para el item de logout
                         titleStyle={styles.logoutText} // Estilo para el texto
                     //iconColor="white" // Color del ícono
