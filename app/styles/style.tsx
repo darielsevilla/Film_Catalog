@@ -11,6 +11,9 @@ export const customStyle = StyleSheet.create({
         margin: 10,
         justifyContent: 'center'
     },
+    marginTop: {
+        marginTop: '30%'
+    },
     bar: {
         width: screen.width * 0.75,
         marginRight: 10
@@ -235,7 +238,7 @@ export const movieStyles = StyleSheet.create({
     },
     rmvBtn: {
         alignItems: 'center',
-        backgroundColor: '#b701c2',
+        backgroundColor: '#301472',
         paddingVertical: 10,
         paddingHorizontal: 2,
         borderRadius: 10,

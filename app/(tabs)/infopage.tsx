@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { infoStyles, movieStyles } from '../styles/style';
+import { infoStyles, movieStyles, customStyle } from '../styles/style';
 import { loadedMovies } from './data/data';
 import React from 'react';
 import { Image, View, ImageBackground, Button, SafeAreaView } from 'react-native';
@@ -137,7 +137,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
             console.log(error)
         }
     };
-    
+
     const removeFavorite = async () => {
         try{
             if(movie){
@@ -190,7 +190,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
     if (!load) {
         return (
             <SafeAreaView style={infoStyles.containerInfo}>
-                <ActivityIndicator animating={true} color={MD2Colors.white} size={'large'} />
+                <ActivityIndicator style={customStyle.marginTop} animating={true} color={MD2Colors.white} size={'large'} />
             </SafeAreaView>
         );
     }
