@@ -1,18 +1,85 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { loadedMovies } from "./data/data";
 import SmallCard from "./BuildingBlocks/smallCard";
-import {Text} from 'react-native-paper'
-export default function MainScreen(){
-    //variables almacenadas en asyncstorage
+import { useState, useEffect, useContext } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MoviesContext } from '@/context/MoviesContext';
+import LinearGradient from "react-native-linear-gradient";
 
-    //vas a cargar las peliculas totales, y las vas a almacenar en un array y en asyncstorage asi (asyncstorage es practicamente localhost):
-    //AsyncStorage.setItem("movies", JSON.stringify(array)) 
-    //ya cuando las separes en categorias en BuildingBlocks esta el tsx SmallCard para que hagas la carta mas pequeña, solo le pones parametros como en el examen
-  
-    return(
-        <>
-            <Text variant="labelSmall">hola</Text>
-            <SmallCard></SmallCard>
-        </>
-    );
-    
+
+
+interface movies {
+  id: string,
+  title: string,
+  poster_path: string,
+  release_date: string,
+  vote_average: string
 }
+
+export default function MainScreen() {
+  const [lista, setList] = useState<Record<string, movies[]>>({})
+  const load = async () => {
+    const movies = await AsyncStorage.getItem("loadedFilms");
+    const tempoList: Record<string, movies[]> = JSON.parse(movies ? movies : "[]");
+    await setList(tempoList);
+  }
+  const { favorites, setFavorites } = useContext(MoviesContext);
+
+
+  useEffect(() => {
+    load();
+  }, [])
+  return (
+    <><LinearGradient
+      colors={["#18092a", "#1A001F"]}
+      style={styles.gradientBackground}
+    >
+      <ScrollView style={styles.container}>
+        {/* Carrusel horizontal */}
+        {(favorites.length != 0) ? <Text style={styles.sectionTitle}>Favoritos</Text> : <></>}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.carousel}
+        >
+          {favorites.map((movie) => (
+            <SmallCard key={movie.id} {...movie} />
+          ))}
+        </ScrollView>
+        {Object.entries(lista).map(([genre, movies]) => <View key={genre}>
+          <Text style={styles.sectionTitle}>{genre}</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.carousel}
+          >
+            {movies.map((movie) => (
+              <SmallCard key={movie.id} {...movie} />
+            ))}
+          </ScrollView></View>)}
+      </ScrollView>
+    </LinearGradient></>
+
+  );
+}
+
+const styles = StyleSheet.create({
+  gradientBackground: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    color: "#FFFFFF",
+    marginVertical: 10,
+    fontWeight: "bold",
+  },
+  carousel: {
+    flexDirection: "row",
+    paddingVertical: 10,
+  },
+});
