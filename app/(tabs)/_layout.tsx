@@ -41,7 +41,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="TempView"
+        name="TempFile"
         options={{
           title: 'Temp',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
