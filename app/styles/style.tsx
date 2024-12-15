@@ -18,24 +18,24 @@ export const customStyle = StyleSheet.create({
         width: screen.width * 0.75,
         marginRight: 10
     },
-    background:{
-        backgroundColor:'gray',
-        color:'white'
+    background: {
+        backgroundColor: 'gray',
+        color: 'white'
     },
-    containerInfo : {
+    containerInfo: {
         height: 'auto',
         minHeight: '100%',
         width: '100%',
         backgroundColor: '#18092a',
-        
+
     },
-    backgroundSearchBar : {
+    backgroundSearchBar: {
         backgroundColor: "#332246"
     },
-    backgroundNormal : {
+    backgroundNormal: {
         backgroundColor: "#18092a"
     }
- })
+})
 
 export const cardStyles = StyleSheet.create({
     searchcard: {
@@ -64,11 +64,11 @@ export const cardStyles = StyleSheet.create({
         flex: 1,
         fontFamily: 'Roboto',
     },
-    titleTextColor:{
-        color:'white'
+    titleTextColor: {
+        color: 'white'
     },
-    subtitleTextColor:{
-        color:'#b1a4c2'
+    subtitleTextColor: {
+        color: '#b1a4c2'
     },
     maxHeight: {
         height: '100%'
@@ -76,11 +76,11 @@ export const cardStyles = StyleSheet.create({
     textContainer: {
         flex: 0.9
     },
-    textColor:{
-        color:'gray'
+    textColor: {
+        color: 'gray'
     },
-    moreButton:{
-        marginLeft:  '10%',
+    moreButton: {
+        marginLeft: '10%',
         marginRight: '10%',
         marginBottom: 20
     },
@@ -459,4 +459,53 @@ export const OpeningStyle = StyleSheet.create({
         width: '60%',
         marginBottom: '5%'
     }
+})
+
+export const navbarStyles = StyleSheet.create({
+    navbar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+        height: 60,
+        backgroundColor: '#231139',
+        elevation: 4,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+    },
+    logo: {
+        width: 100,
+        height: 100,
+        resizeMode: 'contain',
+    },
+    centerContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    userContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    userName: {
+        marginRight: 10,
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#fff',
+    },
+    searchIcon: {
+        marginLeft: 10,
+    },
+    menuContent: {
+        backgroundColor: '#333',
+    },
+    menu: {
+        marginTop: 50,
+    },
+    logoutMenuItem: {
+        backgroundColor: '#000',
+    },
+    logoutText: {
+        color: 'white',
+    },
 })

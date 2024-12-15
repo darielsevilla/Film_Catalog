@@ -1,17 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Text, View, Image, StyleSheet, Dimensions, ImageBackground } from 'react-native';
 import { ImageSourcePropType } from 'react-native';
-import { movieStyles, infoStyles } from '../../styles/style';
+import { infoStyles } from '../../styles/style';
 
 import axios from 'axios';
-import { Button, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { Chip } from 'react-native-paper';
-import { ScrollView } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import { TouchableOpacity } from 'react-native';
-import { WebView } from 'react-native-webview';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Card } from 'react-native-paper';
 
 type ImageItem = {
     image: ImageSourcePropType | string,
@@ -23,47 +17,15 @@ type ImageItem = {
 
 const MainCarousel = () => {
     const [images, setImages] = useState<ImageItem[]>([]);
-    /*let images: ImageItem[] = [
-        {
-            image: require('../../../assets/images/Logo02.png'),
-            title: 'Movie Title 1',
-            year: 2021,
-            rating: 8.5,
-            genres: ['Action', 'Adventure', 'Drama']
-        },
-        {
-            image: 'https://media.themoviedb.org/t/p/w250_and_h141_face/jYEW5xZkZk2WTrdbMGAPFuBqbDc.jpg',
-            title: 'Dune',
-            year: 2021,
-            rating: 7.8,
-            genres: ['Science Fiction', 'Adventure']
-        },
-        {
-            image: 'https://via.placeholder.com/600x200?text=Image+2',
-            title: 'Movie Title 3',
-            year: 2023,
-            rating: 9.0,
-            genres: ['Sci-Fi', 'Thriller']
-        },
-        {
-            image: 'https://via.placeholder.com/600x200?text=Image+3',
-            title: 'Movie Title 4',
-            year: 2024,
-            rating: 6.8,
-            genres: ['Horror', 'Mystery']
-        },
-    ];*/
-    const load = async () =>{
-        
-        const response =await axios.get(process.env.EXPO_PUBLIC_PATH + '/getPeliculasCarousel');
+    const load = async () => {
+        const response = await axios.get(process.env.EXPO_PUBLIC_PATH + '/getPeliculasCarousel');
         const loadedImages: ImageItem[] = response.data.peliculas.map((pelicula: any) => ({
-            image: pelicula.background, 
+            image: pelicula.background,
             title: pelicula.title,
             year: Number(pelicula.year),
             rating: Number(pelicula.rating),
-            genres: pelicula.genres, 
-          }));
-          console.log(response.data)
+            genres: pelicula.genres,
+        }));
         setImages(loadedImages)
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % response.data.peliculas.length);
@@ -80,7 +42,7 @@ const MainCarousel = () => {
         );
         return stars.join(' '); // Combina en una sola línea
     };
-  
+
     useEffect(() => {
         load();
     }, []);
@@ -123,90 +85,68 @@ const MainCarousel = () => {
     return (
         <View style={{ flex: 1, backgroundColor: '#333' }}>
             {images.length > 0 ? (
-            <FlatList
-                ref={flatListRef}
-                data={images}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled
-            />
-        ) : (
-            <Text style={{ color: 'white', textAlign: 'center', marginTop: 20 }}>
-                Loading...
-            </Text>
-        )}
+                <FlatList
+                    ref={flatListRef}
+                    data={images}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index.toString()}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    pagingEnabled
+                />
+            ) : (
+                <Text style={{ color: 'white', textAlign: 'center', marginTop: 20 }}>
+                    Loading...
+                </Text>
+            )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     item: {
-        width: Dimensions.get('window').width, // Ancho total de la pantalla
-        height: Dimensions.get('window').height * 0.5, // Altura ajustable según la necesidad
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height * 0.5,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#1A001F"
     },
     image: {
-        width: Dimensions.get('window').width, // Ancho total de la pantalla
-        height: Dimensions.get('window').height * 0.5, // Altura ajustable según la necesidad
-        resizeMode: 'cover', // Mantiene la proporción de la imagen
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+        justifyContent: 'flex-end',
+        opacity: 0.7
     },
     overlay: {
-        position: 'relative',
-        bottom: 160,
-        left: 0,
+        position: 'absolute',
+        padding: 20,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        bottom: 0,
         width: '100%',
-        marginBottom:0,
-       
-        paddingBottom: 5,
-        flexDirection: 'column',
-        alignItems: 'flex-start',
     },
-
     title: {
         fontSize: 32,
         color: 'white',
-        //fontWeight: 'bold',
+        fontWeight: 'bold',
+    },
+    year: {
+        marginStart: 10,
+        fontSize: 18,
+        color: 'white',
+        marginTop: 5,
     },
     stars: {
         fontSize: 18,
         color: 'yellow',
-        //marginLeft: 10,
         marginBottom: 10,
         fontWeight: 'bold',
     },
-    year: {
-        fontSize: 18,
-        color: 'white',
-        marginLeft: 10,
-        marginTop: 12
-    },
-    rating: {
-        fontSize: 18,
-        color: 'yellow',
-        marginLeft: 10,
-    },
     Container: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginTop: 10,
-    },
-    genreBox: {
-        backgroundColor: 'transparent',
-        borderWidth: 1, // Grosor del borde
-        borderColor: 'white', // Color del borde
-        borderRadius: 5, // Bordes redondeados
-        paddingVertical: 5, // Espaciado interno vertical
-        paddingHorizontal: 10, // Espaciado interno horizontal
-        margin: 5,
-    },
-    genreText: {
-        color: 'white',
-        fontSize: 16,
+        alignItems: 'baseline',
     },
 });
+
 
 export default MainCarousel;

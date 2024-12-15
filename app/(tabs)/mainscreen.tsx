@@ -39,44 +39,44 @@ export default function MainScreen() {
   }, [])
   if (loading) {
     return (
-        <SafeAreaView style={infoStyles.containerInfo}>
-            <ActivityIndicator style={customStyle.marginTop} animating={true} color={MD2Colors.white} size={'large'} />
-        </SafeAreaView>
+      <SafeAreaView style={infoStyles.containerInfo}>
+        <ActivityIndicator style={customStyle.marginTop} animating={true} color={MD2Colors.white} size={'large'} />
+      </SafeAreaView>
     );
-}
+  }
   return (
     <>
-    
-    <PaperProvider>
 
-      <ScrollView>
-        <NavBar />
-        <MainCarousel />
-        {/* Carrusel horizontal */}
-        <View style={styles.container}>
-        {(favorites.length != 0) ? <Text style={styles.sectionTitle}>Favoritos</Text> : <></>}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.carousel}
-        >
-          {favorites.map((movie) => (
-            <SmallCard key={movie.id} {...movie} />
-          ))}
-        </ScrollView>
-        {Object.entries(lista).map(([genre, movies]) => <View key={genre}>
-          <Text style={styles.sectionTitle}>{genre}</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.carousel}
-          >
-            {movies.map((movie) => (
-              <SmallCard key={movie.id} {...movie} />
-            ))}
-          </ScrollView></View>)}
+      <PaperProvider>
+
+        <ScrollView>
+          <NavBar />
+          <MainCarousel />
+          {/* Carrusel horizontal */}
+          <View style={styles.container}>
+            {(favorites.length != 0) ? <Text style={styles.sectionTitle}>Favoritos</Text> : <></>}
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.carousel}
+            >
+              {favorites.map((movie) => (
+                <SmallCard key={movie.id} {...movie} />
+              ))}
+            </ScrollView>
+            {Object.entries(lista).map(([genre, movies]) => <View key={genre}>
+              <Text style={styles.sectionTitle}>{genre}</Text>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.carousel}
+              >
+                {movies.map((movie) => (
+                  <SmallCard key={movie.id} {...movie} />
+                ))}
+              </ScrollView></View>)}
           </View>
-      </ScrollView>
+        </ScrollView>
       </PaperProvider>
     </>
 
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: "#1A001F"
+    backgroundColor: "#170829"
   },
   sectionTitle: {
     fontSize: 24,
