@@ -233,6 +233,15 @@ export const movieStyles = StyleSheet.create({
         gap: 10,
         width: 120
     },
+    rmvBtn: {
+        alignItems: 'center',
+        backgroundColor: '#b701c2',
+        paddingVertical: 10,
+        paddingHorizontal: 2,
+        borderRadius: 10,
+        gap: 10,
+        width: 120
+    },
     buttonImage: {
         width: 31,
         height: 31,

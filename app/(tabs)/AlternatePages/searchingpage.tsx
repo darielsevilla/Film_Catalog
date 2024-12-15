@@ -46,10 +46,14 @@ export default function SearchingPage({ navigation }: any){
                 }
                 
             }
-            setSearchList(updatedList);
-            const item = await AsyncStorage.setItem("searches", JSON.stringify(updatedList))
-            const item2 = await AsyncStorage.getItem("searches");
-            
+
+            if(updatedList.length != 0){
+                setSearchList(updatedList);
+                const item = await AsyncStorage.setItem("searches", JSON.stringify(updatedList))
+                const item2 = await AsyncStorage.getItem("searches");
+                
+                
+            }
             navigation.navigate("SearchResults", { search: newQueue }); 
         }
         

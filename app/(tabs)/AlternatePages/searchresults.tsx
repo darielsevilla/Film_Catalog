@@ -14,7 +14,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MoviesContext } from '@/context/MoviesContext';
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import axios from 'axios';
-
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 const MyComponent = (search: string) => {
     //use States necesarios
 
@@ -49,9 +50,10 @@ const MyComponent = (search: string) => {
                 }
             }
         }
-
+        console.log(favorites)
         const filterFav = favorites.filter((movie:any) => movie.title.toLowerCase().includes(search.toLowerCase()))
             for(let item2 of filterFav){
+                
                 if(!formList.find(repeat=>repeat.id == item2.id)){
                     formList.push(item2)
                 }
@@ -63,7 +65,14 @@ const MyComponent = (search: string) => {
     useEffect(()=>{
         loadLists();
     },[]);
-
+    useEffect(()=>{
+        loadLists();
+    },[favorites]);
+    useFocusEffect(
+        useCallback(() => {
+            loadLists();
+        }, [])
+    );
     //metodos de botones
     const _goBack = () => { navigation.goBack() };
 
@@ -83,7 +92,7 @@ const MyComponent = (search: string) => {
                     text : search
                 }
             }        
-            console.log(url);
+         
         
             const response = await axios.get(url, headers);
             const pelisExtra = response.data.peliculas;
