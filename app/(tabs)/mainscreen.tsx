@@ -24,7 +24,7 @@ export default function MainScreen() {
     const tempoList: Record<string, movies[]> = JSON.parse(movies ? movies : "[]");
     await setList(tempoList);
   }
-  const {favorites, setFavorites} = useContext(MoviesContext); 
+  const { favorites, setFavorites } = useContext(MoviesContext);
 
 
   useEffect(() => {
@@ -32,14 +32,21 @@ export default function MainScreen() {
   }, [])
   return (
     <><LinearGradient
-      colors={["#2C003E", "#1A001F"]}
+      colors={["#18092a", "#1A001F"]}
       style={styles.gradientBackground}
-    ></LinearGradient><ScrollView style={styles.container}>
+    >
+      <ScrollView style={styles.container}>
         {/* Carrusel horizontal */}
         {(favorites.length != 0) ? <Text style={styles.sectionTitle}>Favoritos</Text> : <></>}
-        {favorites.map((movie) => (
-          <SmallCard key={movie.id} {...movie} />
-        ))}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.carousel}
+        >
+          {favorites.map((movie) => (
+            <SmallCard key={movie.id} {...movie} />
+          ))}
+        </ScrollView>
         {Object.entries(lista).map(([genre, movies]) => <View key={genre}>
           <Text style={styles.sectionTitle}>{genre}</Text>
           <ScrollView
@@ -51,7 +58,9 @@ export default function MainScreen() {
               <SmallCard key={movie.id} {...movie} />
             ))}
           </ScrollView></View>)}
-      </ScrollView></>
+      </ScrollView>
+    </LinearGradient></>
+
   );
 }
 
@@ -61,12 +70,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#121212",
     padding: 10,
   },
   sectionTitle: {
     fontSize: 24,
-    color: "#E91E63",
+    color: "#FFFFFF",
     marginVertical: 10,
     fontWeight: "bold",
   },
