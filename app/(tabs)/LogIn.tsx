@@ -39,6 +39,7 @@ export default function LogIn({navigation}: any) {
     const login = async () => {
         try {
             const url = process.env.EXPO_PUBLIC_PATH + '/IniciarSesion';
+            console.log(url);
             const config = {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -60,6 +61,7 @@ export default function LogIn({navigation}: any) {
             
             //posiblemente requira mover todo esto al apartado de la mainscreen
             const url2 = process.env.EXPO_PUBLIC_PATH + '/getPeliculasPorCategoria';
+            console.log(url2);
             const headers = {
                 params : {
                     categorias: "878,28,18,99,16"
@@ -76,6 +78,7 @@ export default function LogIn({navigation}: any) {
                 }
             }
             const urlFavorites = process.env.EXPO_PUBLIC_PATH + '/getFavoritos';
+            console.log(urlFavorites);
             const responseFavorite = await axios.get(urlFavorites, headers2)
 
             //console.log(responseFavorite.data.resultado)
@@ -90,8 +93,8 @@ export default function LogIn({navigation}: any) {
             
            await AsyncStorage.setItem("searches", JSON.stringify(listQueries));
             //console.log(favorites)
-                
-            navigation.navigate("SearchingScreen")
+                console.log("AAAAAAA")
+            navigation.navigate("MainScreen")
         }catch(error : unknown){
             console.log(error)
             if(axios.isAxiosError(error)){
