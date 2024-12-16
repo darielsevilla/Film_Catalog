@@ -18,7 +18,6 @@ import SearchingPage from './AlternatePages/searchingpage';
 import SearchResults from './AlternatePages/searchresults';
 import LogIn from './LogIn'
 import OpeningS from './AlternatePages/OpeningScreen';
-import TempFile from './TempFile';
 import SignUp from './SignUp';
 import InfoPage from './infopage';
 import MainScreen from './mainscreen';
@@ -146,7 +145,6 @@ export default function HomeScreen() {
       {/*search bar */}
       <FavoriteMovies>
         <Stack.Navigator initialRouteName='OpeningScreen'>
-
           <Stack.Screen name="SearchingScreen" component={SearchingPage} options={{ headerShown: false }} />
           <Stack.Screen name="SearchResults" component={SearchResults} options={{ headerShown: false }} />
           <Stack.Screen name="LogIn" component={LogIn} options={{ headerShown: false }} />
@@ -154,7 +152,6 @@ export default function HomeScreen() {
           <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
           <Stack.Screen name="InfoPage" component={InfoPage} options={{ headerShown: false }} />
           <Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="TempFile" component={TempFile} options={{ headerShown: false }} />
         </Stack.Navigator>
       </FavoriteMovies>
     </>

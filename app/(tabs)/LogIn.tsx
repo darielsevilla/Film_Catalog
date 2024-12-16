@@ -6,12 +6,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MoviesContext } from '@/context/MoviesContext';
 import { useEffect } from 'react';
 import { signUp, logIn } from '../styles/style';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 export default function LogIn({navigation}: any) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {favorites, setFavorites} = useContext(MoviesContext)
     const [error, setError] = useState(0);
+    
     const updateEmail = (value: string) => {
         if (error != 0) {
             setError(0);
@@ -36,7 +39,7 @@ export default function LogIn({navigation}: any) {
     const login = async () => {
         try {
             const url = process.env.EXPO_PUBLIC_PATH + '/IniciarSesion';
-            console.log(url);
+      
             const config = {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -56,10 +59,9 @@ export default function LogIn({navigation}: any) {
             AsyncStorage.setItem("email", response.data.user.correo);
             AsyncStorage.setItem("id", response.data.user._id)
             
-        
             //posiblemente requira mover todo esto al apartado de la mainscreen
             const url2 = process.env.EXPO_PUBLIC_PATH + '/getPeliculasPorCategoria';
-            console.log(url2);
+          
             const headers = {
                 params : {
                     categorias: "878,28,18,99,16"
@@ -76,7 +78,7 @@ export default function LogIn({navigation}: any) {
                 }
             }
             const urlFavorites = process.env.EXPO_PUBLIC_PATH + '/getFavoritos';
-            console.log(urlFavorites);
+          
             const responseFavorite = await axios.get(urlFavorites, headers2)
 
             //console.log(responseFavorite.data.resultado)
@@ -91,7 +93,7 @@ export default function LogIn({navigation}: any) {
             
            await AsyncStorage.setItem("searches", JSON.stringify(listQueries));
             //console.log(favorites)
-                console.log("AAAAAAA")
+              
             navigation.navigate("MainScreen")
         }catch(error : unknown){
             console.log(error)
@@ -140,9 +142,11 @@ export default function LogIn({navigation}: any) {
             }
         }
     }
-    useEffect(()=>{
-        saveQueries();
-    })
+    useFocusEffect(
+        useCallback(() => {
+            saveQueries();
+        }, [])
+    );
     return (
         <ImageBackground
             source={{ uri: 'https://okdiario.com/img/2022/03/31/filmin-esta-lleno-de-obras-maestras-del-cine.jpg' }}

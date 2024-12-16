@@ -1,23 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { infoStyles, movieStyles } from '../styles/style';
+import { infoStyles, movieStyles, customStyle } from '../styles/style';
+import { loadedMovies } from './data/data';
 import React from 'react';
 import { Image, View, ImageBackground, Button, SafeAreaView } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Chip } from 'react-native-paper';
 import { ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { MoviesContext } from '@/context/MoviesContext';
 import { TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Card } from 'react-native-paper';
-
+import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 interface InfoPageParams {
     movieId: number;
 }
 
 interface gallery {
-    image: string;
+    imagen: string;
+}
+
+interface production {
+    name: string;
 }
 
 interface Movie {
@@ -30,7 +36,7 @@ interface Movie {
     language: string,
     overview: string,
     genres: string[],
-    production: string[],
+    production: production[],
     trailer: string,
     duration: string,
     adult: boolean,
@@ -44,8 +50,11 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
     const [movie, setMovie] = useState<Movie>()
     const [adult, setAdult] = useState<boolean>(false);
     const [kids, setKids] = useState<boolean>(false);
-
+    const { favorites, setFavorites } = useContext(MoviesContext);
+    const [favorite, setFavorite] = useState(false);
+    const [searching, setSearching] = useState(false);
     const getMovie = async () => {
+
         const userId = await AsyncStorage.getItem("id");
         const { movieId } = route.params;
         const url = process.env.EXPO_PUBLIC_PATH + '/getPelicula';
@@ -63,7 +72,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
             }
             return url;
         };
-
+        //const galeria = response.data.images.map((image:any) => image.imagen);
         setMovie({
             id: response.data.data.id,
             poster: response.data.data.poster,
@@ -84,23 +93,112 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
         });
         //conseguir datos
 
-
-        console.log("adult " + response.data.data.adult);
-
         if (adult) {
             setAdult(true);
         } else {
             setKids(true);
         }
-        setLoad(true)
+        setLoad(true);
 
     }
+
+    const addFavorite = async () => {
+        try {
+            if (movie) {
+                const user_id = await AsyncStorage.getItem("id")
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                }
+
+                const body = {
+                    movie: movie.id,
+                    user: user_id
+                }
+
+                const response = axios.post(process.env.EXPO_PUBLIC_PATH + "/agregarFavorito", body, config).then((responsePost) => {
+                    if (responsePost.status == 202) {
+                        //se agregó a favoritos 
+                        setMovie(movie => {
+                            if (!movie) return undefined;
+                            return {
+                                ...movie,
+                                favorite: true
+                            }
+                        });
+                        const favoritos = [...favorites, { id: String(movie.id), title: movie.name, poster_path: movie.poster, release_date: String(movie.year), vote_average: String(movie.rating) }]
+                        setFavorites(favoritos)
+                        AsyncStorage.setItem("favorites", JSON.stringify(favoritos));
+
+                    }
+                }
+                ).catch((error) => { console.error(error) });
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    const removeFavorite = async () => {
+        try {
+            if (movie) {
+                const user_id = await AsyncStorage.getItem("id")
+
+                const headers = {
+                    params: {
+                        movie: movie.id,
+                        user: user_id
+                    }
+
+                }
+                const response = axios.delete(process.env.EXPO_PUBLIC_PATH + "/eliminarFavorito", headers).then((responsePost) => {
+                    if (responsePost.status == 202) {
+                        //se eliminó a favoritos 
+                        setMovie(movie => {
+                            if (!movie) return undefined;
+                            return {
+                                ...movie,
+                                favorite: false
+                            }
+                        });
+
+                        const favoritos = favorites.filter(movie => movie.id !== String(movie.id));
+                        setFavorites(favoritos)
+                        AsyncStorage.setItem("favorites", JSON.stringify(favoritos));
+                    }
+                });
+            }
+        } catch (error) {
+
+        }
+    };
+
     useEffect(() => {
         getMovie();
     }, [])
+    useEffect(() => {
+        if (movie) {
+            if (movie.favorite) {
+                setFavorite(true);
+            } else {
+                setFavorite(false);
+            }
+
+        }
+
+
+    }, [movie])
     if (!load) {
-        return (<></>);
+        return (
+            <SafeAreaView style={infoStyles.containerInfo}>
+                <ActivityIndicator style={customStyle.marginTop} animating={true} color={MD2Colors.white} size={'large'} />
+            </SafeAreaView>
+        );
     }
+
     return (<>
         <SafeAreaView style={infoStyles.containerInfo}>
             <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
@@ -118,7 +216,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                     </Text>
 
                     <View style={infoStyles.topTextContainer}>
-                        {movie?.genres.map((genre) => <Chip style={infoStyles.chipStyle} key={genre} mode="outlined"><Text style={infoStyles.chipText}>{genre}</Text></Chip>)}
+                        {movie?.genres.map((genre) => <Chip style={infoStyles.genresStyle} key={genre} mode="outlined"><Text style={infoStyles.genresText}>{genre}</Text></Chip>)}
                     </View>
 
                 </View>
@@ -132,7 +230,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                                 <>
                                     <Image style={movieStyles.rating}
                                         source={require('../../assets/images/familia.png')} />
-                                    <Text style={movieStyles.adultsText} variant="titleLarge">
+                                    <Text style={movieStyles.adultsText} variant="titleMedium">
                                         Everyone
                                     </Text>
                                 </>
@@ -143,7 +241,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                                 <>
                                     <Image style={movieStyles.adults}
                                         source={require('../../assets/images/18.png')} />
-                                    <Text style={movieStyles.adultsText} variant="titleLarge">
+                                    <Text style={movieStyles.adultsText} variant="titleMedium">
                                         Adults
                                     </Text>
                                 </>
@@ -160,10 +258,13 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                         </View>
 
                         {/*Agregar a Favoritos*/}
-                        <TouchableOpacity style={movieStyles.favoriteBtn} onPress={() => {/* Tu función aquí */ }}>
+                        {(!favorite) ? <TouchableOpacity style={movieStyles.favoriteBtn} onPress={addFavorite}>
                             <Image style={movieStyles.buttonImage} source={require('../../assets/images/favorito.png')} />
                             <Text style={movieStyles.buttonText}>Add to Favorites</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> : <TouchableOpacity style={movieStyles.rmvBtn} onPress={removeFavorite}>
+                            <Image style={movieStyles.buttonImage} source={require('../../assets/images/favoritoIcon.png')} />
+                            <Text style={movieStyles.buttonText}>Remove Favorite</Text>
+                        </TouchableOpacity>}
                     </View>
 
                     <View style={movieStyles.divisor} />
@@ -192,7 +293,10 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                                 <Text style={movieStyles.attributesColor}>Original Language:</Text> {movie?.language}
                             </Text>
                             <Text style={movieStyles.bodyColor} variant="titleMedium">
-                                <Text style={movieStyles.attributesColor}>Production:</Text> {movie?.production}
+                                <Text style={movieStyles.attributesColor}>Production:</Text>
+                                {movie?.production.map((item, index) => (
+                                    <Text key={index} style={movieStyles.attributesColor}>{item.name} </Text>
+                                ))}
                             </Text>
                         </View>
                     </View>
@@ -237,9 +341,10 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                             <Text style={movieStyles.titles} variant="displaySmall">
                                 Gallery
                             </Text>
+
                             {movie.gallery.map((photo, index) => (
                                 <Card key={index} style={{ marginBottom: 20 }}>
-                                    <Card.Cover source={{ uri: photo.image }} />
+                                    <Card.Cover source={{ uri: photo.imagen ? photo.imagen : "" }} />
                                 </Card>
                             )
                             )}

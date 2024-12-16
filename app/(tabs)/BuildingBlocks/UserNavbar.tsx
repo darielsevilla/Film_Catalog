@@ -1,37 +1,58 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { Avatar, IconButton, Menu } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image } from 'react-native';
+import { Avatar, IconButton, Menu, Divider } from 'react-native-paper';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { navbarStyles } from '../../styles/style';
+import axios from 'axios';
+type RootStackParamList = {
+    SearchingScreen: undefined;
+    LogIn: undefined;
+};
+type InfoProp = NavigationProp<RootStackParamList, 'SearchingScreen' | 'LogIn'>;
 const Navbar = () => {
-    const [visible, setVisible] = useState(false); // Estado para mostrar/ocultar el menú
-    const navigation = useNavigation();
+    const [visible, setVisible] = useState(false);
+    const navigation = useNavigation<InfoProp>();
+    const click = () => {
+        navigation.navigate('SearchingScreen');
+    }
+
+    const [name, setName] = useState("");
+    const [apellido, setApellido] = useState("");
 
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
-
-    const handleLogout = () => {
-        closeMenu();
-        console.log('Logout pressed'); // Aquí puedes redirigir a la pantalla de login o limpiar el estado
+    const load = async () => {
+        const name = await AsyncStorage.getItem("name");
+        const lName = await AsyncStorage.getItem("lastName");
+        setName(name ? name : "nombre");
+        setApellido(lName ? lName : "apellido");
+    }
+    const handleLogout = async () => {
+        const response = await axios.post(process.env.EXPO_PUBLIC_PATH + '/logOut');
+        navigation.navigate('LogIn');
     };
 
+    useEffect(() => {
+        load();
+    }, []);
+
     return (
-        <View style={styles.navbar}>
-            {/* Logo de la aplicación a la izquierda */}
+        <View style={navbarStyles.navbar}>
+            {/* Logo */}
             <Image
                 source={require('../../../assets/images/Logo02.png')}
-                style={styles.logo}
+                style={navbarStyles.logo}
             />
 
-            {/* Contenido del Navbar */}
-            <View style={styles.centerContent}>
+            <View style={navbarStyles.centerContent}>
                 {/* Ícono de búsqueda */}
                 <IconButton
                     icon="magnify"
                     size={28}
                     iconColor="white"
-                    onPress={() => console.log('Search pressed')}
-                    style={styles.searchIcon}
+                    onPress={click}
+                    style={navbarStyles.searchIcon}
                 />
 
                 {/* Menú desplegable */}
@@ -39,79 +60,46 @@ const Navbar = () => {
                     visible={visible}
                     onDismiss={closeMenu}
                     anchor={
-                        <View style={styles.userContainer} onTouchStart={openMenu}>
-                            <Text style={styles.userName}>Nombre Apellido</Text>
+                        <View style={navbarStyles.userContainer} onTouchStart={openMenu}>
                             <Avatar.Image
                                 size={40}
-                                source={require('../../../assets/images/Logo.png')}
+                                source={require('../../../assets/images/avatar.png')}
+                                style={{
+                                    backgroundColor: 'transparent',
+                                    marginBottom: 12
+                                }}
                             />
                         </View>
                     }
-                    contentStyle={styles.menuContent}
-                    style={styles.menu}
+                    contentStyle={navbarStyles.menuContent}
+                    style={navbarStyles.menu}
                 >
+                    {/*user info*/}
+                    <View style={navbarStyles.menuUserContainer}>
+                        <Avatar.Image
+                            size={40}
+                            source={require('../../../assets/images/avatar.png')}
+                            style={{ backgroundColor: 'transparent' }}
+                        />
+                        <Text style={navbarStyles.userNameMenuText}>
+                            {name} {apellido}
+                        </Text>
+                    </View>
+
+                    <Divider />
+
+                    {/* Logout */}
                     <Menu.Item
                         onPress={handleLogout}
                         title="Logout"
-                        leadingIcon="logout" // Ícono de logout
-                        style={styles.logoutMenuItem} // Estilo personalizado para el item de logout
-                        titleStyle={styles.logoutText} // Estilo para el texto
-                    //iconColor="white" // Color del ícono
+                        leadingIcon="logout"
+                        style={navbarStyles.logoutMenuItem}
+                        titleStyle={navbarStyles.logoutText}
                     />
                 </Menu>
             </View>
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    navbar: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
-        height: 60,
-        backgroundColor: '#000000', // Color de fondo del navbar
-        elevation: 4, // Para sombra en Android
-        shadowColor: '#000', // Para sombra en iOS
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
-    },
-    logo: {
-        width: 100, // Ancho del logo
-        height: 100, // Alto del logo
-        resizeMode: 'contain',
-    },
-    centerContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    userContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    userName: {
-        marginRight: 10,
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: '#fff',
-    },
-    searchIcon: {
-        marginLeft: 10,
-    },
-    menuContent: {
-        backgroundColor: '#333', // Fondo oscuro para el menú
-    },
-    menu: {
-        marginTop: 50, // Ajusta la posición del menú para que quede debajo del avatar
-    },
-    logoutMenuItem: {
-        backgroundColor: '#000', // Fondo negro para el item de logout
-    },
-    logoutText: {
-        color: 'white', // Texto blanco para el item de logout
-    },
-});
 
 export default Navbar;
