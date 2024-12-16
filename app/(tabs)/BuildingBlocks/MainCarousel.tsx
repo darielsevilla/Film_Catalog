@@ -72,7 +72,7 @@ const MainCarousel = () => {
                     <Text style={CarruselStyles.stars}>{renderStars(item.rating)}</Text>
                     <View style={[infoStyles.topTextContainer, { flexWrap: 'wrap', flexDirection: 'row' }]}>
                         {item?.genres.map((genre) => (
-                            <Chip style={infoStyles.chipStyle} key={genre} mode="outlined">
+                            <Chip style={infoStyles.genresStyle} key={genre} mode="outlined">
                                 <Text style={infoStyles.chipText}>{genre}</Text>
                             </Chip>
                         ))}
