@@ -4,7 +4,7 @@ import { Avatar, IconButton, Menu } from 'react-native-paper';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { navbarStyles } from '../../styles/style';
-
+import axios from 'axios';
 type RootStackParamList = {
     SearchingScreen: undefined;
     LogIn: undefined;
@@ -28,9 +28,9 @@ const Navbar = () => {
         setName(name ? name : "nombre");
         setApellido(lName ? lName : "apellido");
     }
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        const response = await axios.post(process.env.EXPO_PUBLIC_PATH + '/logOut');
         navigation.navigate('LogIn');
-        console.log('Logout pressed');
     };
 
     useEffect(() => {

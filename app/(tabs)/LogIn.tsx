@@ -141,7 +141,6 @@ export default function LogIn({navigation}: any) {
 
             }
         }
-        console.log("llegue")
     }
     useFocusEffect(
         useCallback(() => {

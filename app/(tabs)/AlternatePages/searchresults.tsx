@@ -50,7 +50,7 @@ const MyComponent = (search: string) => {
                 }
             }
         }
-        console.log(favorites)
+ 
         const filterFav = favorites.filter((movie:any) => movie.title.toLowerCase().includes(search.toLowerCase()))
             for(let item2 of filterFav){
                 
@@ -65,9 +65,7 @@ const MyComponent = (search: string) => {
     useEffect(()=>{
         loadLists();
     },[]);
-    useEffect(()=>{
-        loadLists();
-    },[favorites]);
+    
     useFocusEffect(
         useCallback(() => {
             loadLists();
@@ -109,17 +107,13 @@ const MyComponent = (search: string) => {
             );
             setList([...favoritosEncontrados, ...peliculasMapeadas])
         }catch(error){
-            console.log(error)
+     
         }
         setSearching(false);
     }
     
     const load =  () => {
-    
-        
-        /*const filteredMovies = loadedMovies.movies.filter(movie => 
-            movie.name.toLowerCase().includes(search.toLowerCase())
-          );*/
+
         if(list.length > 0){
             return(<>
                 {list.map((movie, i)=>(i==0)?<View key ={movie.id} >
