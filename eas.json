@@ -1,0 +1,30 @@
+{
+  "cli": {
+    "version": ">= 13.3.0"
+  },
+  "build": {
+    "development": {
+      "android": {
+        "developmentClient": true, 
+        "distribution": "internal"
+      }
+    },
+    
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+       "EXPO_PUBLIC_PATH":"https://backux-3zbfcyx8d-darielsevillas-projects.vercel.app"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
