@@ -53,7 +53,7 @@ export default function MainScreen() {
           <MainCarousel />
           {/* Carrusel horizontal */}
           <View style={styles.container}>
-            {(favorites.length != 0) ? <Text style={styles.sectionTitle}>Favoritos</Text> : <></>}
+            {(favorites.length != 0) ? <Text style={styles.sectionTitle}>Favorites</Text> : <></>}
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
