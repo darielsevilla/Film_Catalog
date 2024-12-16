@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Text, View, Image, StyleSheet, Dimensions, ImageBackground } from 'react-native';
 import { ImageSourcePropType } from 'react-native';
-import { infoStyles } from '../../styles/style';
+import { infoStyles, CarruselStyles } from '../../styles/style';
 
 import axios from 'axios';
 import { SafeAreaView } from 'react-native';
@@ -58,18 +58,19 @@ const MainCarousel = () => {
 
     const renderItem = ({ item }: { item: ImageItem }) => {
         return (
-            <SafeAreaView style={styles.item}>
+            <SafeAreaView style={CarruselStyles.item}>
                 <ImageBackground
-                    style={styles.image}
+                    style={CarruselStyles.image}
                     source={typeof item.image === 'string' ? { uri: item.image } : item.image}
                 />
-                <View style={styles.overlay}>
-                    <View style={styles.Container}>
-                        <Text style={styles.title}>{item.title}</Text>
-                        <Text style={styles.year}>({item.year})</Text>
+                <View style={CarruselStyles.overlay}>
+                    <View style={CarruselStyles.Container}>
+                        <Text style={CarruselStyles.title}>{item.title}
+                            <Text style={CarruselStyles.year}> ({item.year})</Text>
+                        </Text>
                     </View>
-                    <Text style={styles.stars}>{renderStars(item.rating)}</Text>
-                    <View style={infoStyles.topTextContainer}>
+                    <Text style={CarruselStyles.stars}>{renderStars(item.rating)}</Text>
+                    <View style={[infoStyles.topTextContainer, { flexWrap: 'wrap', flexDirection: 'row' }]}>
                         {item?.genres.map((genre) => (
                             <Chip style={infoStyles.chipStyle} key={genre} mode="outlined">
                                 <Text style={infoStyles.chipText}>{genre}</Text>
@@ -103,50 +104,6 @@ const MainCarousel = () => {
     );
 };
 
-const styles = StyleSheet.create({
-    item: {
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height * 0.5,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-        justifyContent: 'flex-end',
-        opacity: 0.7
-    },
-    overlay: {
-        position: 'absolute',
-        padding: 20,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        bottom: 0,
-        width: '100%',
-    },
-    title: {
-        fontSize: 32,
-        color: 'white',
-        fontWeight: 'bold',
-    },
-    year: {
-        marginStart: 10,
-        fontSize: 18,
-        color: 'white',
-        marginTop: 5,
-    },
-    stars: {
-        fontSize: 18,
-        color: 'yellow',
-        marginBottom: 10,
-        fontWeight: 'bold',
-    },
-    Container: {
-        flexDirection: 'row',
-        alignItems: 'baseline',
-    },
-});
 
 
 export default MainCarousel;

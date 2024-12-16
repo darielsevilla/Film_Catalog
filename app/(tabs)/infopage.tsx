@@ -22,6 +22,10 @@ interface gallery {
     imagen: string;
 }
 
+interface production {
+    name: string;
+}
+
 interface Movie {
     id: number,
     poster: string,
@@ -32,7 +36,7 @@ interface Movie {
     language: string,
     overview: string,
     genres: string[],
-    production: string[],
+    production: production[],
     trailer: string,
     duration: string,
     adult: boolean,
@@ -46,11 +50,11 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
     const [movie, setMovie] = useState<Movie>()
     const [adult, setAdult] = useState<boolean>(false);
     const [kids, setKids] = useState<boolean>(false);
-    const {favorites, setFavorites} = useContext(MoviesContext);
+    const { favorites, setFavorites } = useContext(MoviesContext);
     const [favorite, setFavorite] = useState(false);
     const [searching, setSearching] = useState(false);
     const getMovie = async () => {
-       
+
         const userId = await AsyncStorage.getItem("id");
         const { movieId } = route.params;
         const url = process.env.EXPO_PUBLIC_PATH + '/getPelicula';
@@ -88,7 +92,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
             gallery: response.data.data.images
         });
         //conseguir datos
-       
+
         if (adult) {
             setAdult(true);
         } else {
@@ -99,65 +103,65 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
     }
 
     const addFavorite = async () => {
-        try{
-            if(movie){
+        try {
+            if (movie) {
                 const user_id = await AsyncStorage.getItem("id")
-            
+
                 const config = {
                     headers: {
-                        'Content-Type' : 'application/x-www-form-urlencoded',
-                        'Access-Control-Allow-Origin' : '*'
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Access-Control-Allow-Origin': '*'
                     }
                 }
-               
+
                 const body = {
                     movie: movie.id,
                     user: user_id
                 }
-                
-                const response = axios.post(process.env.EXPO_PUBLIC_PATH + "/agregarFavorito", body, config).then((responsePost)=>{
-                    if(responsePost.status == 202){
+
+                const response = axios.post(process.env.EXPO_PUBLIC_PATH + "/agregarFavorito", body, config).then((responsePost) => {
+                    if (responsePost.status == 202) {
                         //se agregó a favoritos 
                         setMovie(movie => {
-                            if (!movie) return undefined; 
+                            if (!movie) return undefined;
                             return {
-                                ...movie, 
-                                favorite: true 
+                                ...movie,
+                                favorite: true
                             }
-                            });
-                        const favoritos = [...favorites, {id: String(movie.id), title: movie.name, poster_path:movie.poster, release_date: String(movie.year), vote_average: String(movie.rating)}]
+                        });
+                        const favoritos = [...favorites, { id: String(movie.id), title: movie.name, poster_path: movie.poster, release_date: String(movie.year), vote_average: String(movie.rating) }]
                         setFavorites(favoritos)
                         AsyncStorage.setItem("favorites", JSON.stringify(favoritos));
-                        
+
                     }
                 }
-                ).catch((error) => { console.error(error)});
+                ).catch((error) => { console.error(error) });
             }
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
     };
 
     const removeFavorite = async () => {
-        try{
-            if(movie){
-                const user_id = await AsyncStorage.getItem("id") 
-                
+        try {
+            if (movie) {
+                const user_id = await AsyncStorage.getItem("id")
+
                 const headers = {
                     params: {
                         movie: movie.id,
                         user: user_id
                     }
-                    
+
                 }
-                const response = axios.delete(process.env.EXPO_PUBLIC_PATH + "/eliminarFavorito", headers).then((responsePost)=>{
-                    if(responsePost.status == 202){
+                const response = axios.delete(process.env.EXPO_PUBLIC_PATH + "/eliminarFavorito", headers).then((responsePost) => {
+                    if (responsePost.status == 202) {
                         //se eliminó a favoritos 
                         setMovie(movie => {
-                            if (!movie) return undefined; 
+                            if (!movie) return undefined;
                             return {
-                                ...movie, 
-                                favorite: false 
+                                ...movie,
+                                favorite: false
                             }
                         });
 
@@ -167,7 +171,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                     }
                 });
             }
-        }catch(error){
+        } catch (error) {
 
         }
     };
@@ -175,18 +179,18 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
     useEffect(() => {
         getMovie();
     }, [])
-    useEffect(()=>{
-        if(movie){
-            if(movie.favorite){
+    useEffect(() => {
+        if (movie) {
+            if (movie.favorite) {
                 setFavorite(true);
-            }else{
+            } else {
                 setFavorite(false);
             }
 
         }
-      
 
-    },[movie])
+
+    }, [movie])
     if (!load) {
         return (
             <SafeAreaView style={infoStyles.containerInfo}>
@@ -212,7 +216,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                     </Text>
 
                     <View style={infoStyles.topTextContainer}>
-                        {movie?.genres.map((genre) => <Chip style={infoStyles.chipStyle} key={genre} mode="outlined"><Text style={infoStyles.chipText}>{genre}</Text></Chip>)}
+                        {movie?.genres.map((genre) => <Chip style={infoStyles.genresStyle} key={genre} mode="outlined"><Text style={infoStyles.chipText}>{genre}</Text></Chip>)}
                     </View>
 
                 </View>
@@ -254,10 +258,10 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                         </View>
 
                         {/*Agregar a Favoritos*/}
-                        {(!favorite)?<TouchableOpacity style={movieStyles.favoriteBtn} onPress={addFavorite}>
+                        {(!favorite) ? <TouchableOpacity style={movieStyles.favoriteBtn} onPress={addFavorite}>
                             <Image style={movieStyles.buttonImage} source={require('../../assets/images/favorito.png')} />
                             <Text style={movieStyles.buttonText}>Add to Favorites</Text>
-                        </TouchableOpacity>:<TouchableOpacity style={movieStyles.rmvBtn} onPress={removeFavorite}>
+                        </TouchableOpacity> : <TouchableOpacity style={movieStyles.rmvBtn} onPress={removeFavorite}>
                             <Image style={movieStyles.buttonImage} source={require('../../assets/images/favoritoIcon.png')} />
                             <Text style={movieStyles.buttonText}>Remove Favorite</Text>
                         </TouchableOpacity>}
@@ -289,7 +293,10 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                                 <Text style={movieStyles.attributesColor}>Original Language:</Text> {movie?.language}
                             </Text>
                             <Text style={movieStyles.bodyColor} variant="titleMedium">
-                                <Text style={movieStyles.attributesColor}>Production:</Text> {movie?.production}
+                                <Text style={movieStyles.attributesColor}>Production:</Text>
+                                {movie?.production.map((item, index) => (
+                                    <Text key={index} style={movieStyles.attributesColor}>{item.name} </Text>
+                                ))}
                             </Text>
                         </View>
                     </View>
@@ -334,7 +341,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                             <Text style={movieStyles.titles} variant="displaySmall">
                                 Gallery
                             </Text>
-                            
+
                             {movie.gallery.map((photo, index) => (
                                 <Card key={index} style={{ marginBottom: 20 }}>
                                     <Card.Cover source={{ uri: photo.imagen ? photo.imagen : "" }} />

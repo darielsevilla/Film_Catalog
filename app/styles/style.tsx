@@ -89,7 +89,8 @@ export const cardStyles = StyleSheet.create({
         resizeMode: 'contain',
     },
     textCenter: {
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'white'
     }
 })
 
@@ -124,27 +125,25 @@ export const infoStyles = StyleSheet.create({
         display: 'flex',
         gap: 10,
         flexDirection: 'row',
-
+        flexWrap: 'wrap',
     },
     txt: {
         color: 'white',
-        bottom: 5
+        bottom: 5,
+        marginBottom: 0
     },
-    chipStyle: {
+    genresStyle: {
         backgroundColor: 'transparent',
         color: 'white',
         borderColor: 'white',
         textAlign: 'center',
         justifyContent: 'center',
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
     },
     chipText: {
-
         textAlign: 'center',
-
         display: 'flex',
         color: 'white',
-
     },
 })
 
@@ -219,7 +218,7 @@ export const movieStyles = StyleSheet.create({
     ratingText: {
         color: 'white',
         fontWeight: "bold",
-        fontSize: 28
+        fontSize: 25
     },
     detailsContainer: {
         flexDirection: 'row',
@@ -464,24 +463,26 @@ export const OpeningStyle = StyleSheet.create({
 export const navbarStyles = StyleSheet.create({
     navbar: {
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 10,
-        height: 60,
+        height: 90,
         backgroundColor: '#231139',
         elevation: 4,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
+        zIndex: 1000,
     },
     logo: {
         width: 100,
         height: 100,
         resizeMode: 'contain',
+        marginTop: 7,
+        marginBottom: 0
     },
     centerContent: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
     },
     userContainer: {
         flexDirection: 'row',
@@ -492,20 +493,91 @@ export const navbarStyles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         color: '#fff',
+        marginBottom: 9
     },
     searchIcon: {
         marginLeft: 10,
+        marginBottom: 10
     },
     menuContent: {
-        backgroundColor: '#333',
+        backgroundColor: '#231139',
     },
     menu: {
         marginTop: 50,
     },
     logoutMenuItem: {
-        backgroundColor: '#000',
+        backgroundColor: '#231139',
     },
     logoutText: {
         color: 'white',
     },
+    userNameMenuItem: {
+        justifyContent: 'center',
+        paddingVertical: 10,
+
+    },
+    userNameMenuText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: 'white',
+        paddingEnd: 15
+    },
+    menuUserContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+        gap: 7,
+        backgroundColor: '#231139',
+    }
 })
+
+export const CarruselStyles = StyleSheet.create({
+    item: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height * 0.5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    image: {
+        width: Dimensions.get('window').width,
+        height: '100%',
+        resizeMode: 'cover',
+        justifyContent: 'flex-end',
+        opacity: 0.7,
+        flex: 1
+    },
+    overlay: {
+        position: 'absolute',
+        padding: 20,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        marginEnd: 20,
+        bottom: 0,
+        width: '100%',
+    },
+    title: {
+        fontSize: 32,
+        color: 'white',
+        fontWeight: 'bold',
+        flexShrink: 1,
+        marginEnd: 10
+    },
+    year: {
+        fontSize: 18,
+        color: 'white',
+        fontWeight: '400'
+    },
+    stars: {
+        fontSize: 18,
+        color: 'yellow',
+        marginBottom: 10,
+        fontWeight: 'bold',
+    },
+    Container: {
+        flexDirection: 'row',
+        alignItems: 'baseline',
+        width: '100%',
+        gap: 10,
+        justifyContent: 'flex-start'
+    },
+});

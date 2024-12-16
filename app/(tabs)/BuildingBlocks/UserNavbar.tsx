@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
-import { Avatar, IconButton, Menu } from 'react-native-paper';
+import { Avatar, IconButton, Menu, Divider } from 'react-native-paper';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { navbarStyles } from '../../styles/style';
@@ -39,13 +39,12 @@ const Navbar = () => {
 
     return (
         <View style={navbarStyles.navbar}>
-            {/* Logo de la aplicación a la izquierda */}
+            {/* Logo */}
             <Image
                 source={require('../../../assets/images/Logo02.png')}
                 style={navbarStyles.logo}
             />
 
-            {/* Contenido del Navbar */}
             <View style={navbarStyles.centerContent}>
                 {/* Ícono de búsqueda */}
                 <IconButton
@@ -62,12 +61,12 @@ const Navbar = () => {
                     onDismiss={closeMenu}
                     anchor={
                         <View style={navbarStyles.userContainer} onTouchStart={openMenu}>
-                            <Text style={navbarStyles.userName}>{name} {apellido}</Text>
                             <Avatar.Image
                                 size={40}
                                 source={require('../../../assets/images/avatar.png')}
                                 style={{
-                                    backgroundColor: 'transparent'
+                                    backgroundColor: 'transparent',
+                                    marginBottom: 12
                                 }}
                             />
                         </View>
@@ -75,6 +74,21 @@ const Navbar = () => {
                     contentStyle={navbarStyles.menuContent}
                     style={navbarStyles.menu}
                 >
+                    {/*user info*/}
+                    <View style={navbarStyles.menuUserContainer}>
+                        <Avatar.Image
+                            size={40}
+                            source={require('../../../assets/images/avatar.png')}
+                            style={{ backgroundColor: 'transparent' }}
+                        />
+                        <Text style={navbarStyles.userNameMenuText}>
+                            {name} {apellido}
+                        </Text>
+                    </View>
+
+                    <Divider />
+
+                    {/* Logout */}
                     <Menu.Item
                         onPress={handleLogout}
                         title="Logout"

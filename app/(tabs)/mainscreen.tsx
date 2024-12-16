@@ -48,9 +48,8 @@ export default function MainScreen() {
     <>
 
       <PaperProvider>
-
+        <NavBar />
         <ScrollView>
-          <NavBar />
           <MainCarousel />
           {/* Carrusel horizontal */}
           <View style={styles.container}>
