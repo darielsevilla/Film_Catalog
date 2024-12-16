@@ -140,7 +140,7 @@ export const infoStyles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'flex-start',
     },
-    chipText: {
+    genresText: {
         textAlign: 'center',
         display: 'flex',
         color: 'white',

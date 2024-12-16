@@ -73,7 +73,7 @@ const MainCarousel = () => {
                     <View style={[infoStyles.topTextContainer, { flexWrap: 'wrap', flexDirection: 'row' }]}>
                         {item?.genres.map((genre) => (
                             <Chip style={infoStyles.genresStyle} key={genre} mode="outlined">
-                                <Text style={infoStyles.chipText}>{genre}</Text>
+                                <Text style={infoStyles.genresText}>{genre}</Text>
                             </Chip>
                         ))}
                     </View>

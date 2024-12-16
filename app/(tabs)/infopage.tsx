@@ -216,7 +216,7 @@ export default function InfoPage({ route }: { route: { params: InfoPageParams } 
                     </Text>
 
                     <View style={infoStyles.topTextContainer}>
-                        {movie?.genres.map((genre) => <Chip style={infoStyles.genresStyle} key={genre} mode="outlined"><Text style={infoStyles.chipText}>{genre}</Text></Chip>)}
+                        {movie?.genres.map((genre) => <Chip style={infoStyles.genresStyle} key={genre} mode="outlined"><Text style={infoStyles.genresText}>{genre}</Text></Chip>)}
                     </View>
 
                 </View>
