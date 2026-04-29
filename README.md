@@ -5,7 +5,7 @@ Film Catalog es una aplicación móvil diseñada para que los amantes del cine p
 ## 🎥 Demo del Proyecto
 
 <div align="center">
-  <video src="assets/media/FE_filmcatalog.mp4" width="100%" controls>
+  <video src="https://github.com/darielsevilla/Film_Catalog/raw/main/assets/media/FE_filmcatalog.mp4" width="100%" controls>
     Tu navegador no soporta la reproducción de videos.
   </video>
 </div>
