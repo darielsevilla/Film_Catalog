@@ -1,50 +1,91 @@
-# Welcome to your Expo app 👋
+# Film Catalog 🎬
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Film Catalog es una aplicación móvil diseñada para que los amantes del cine puedan explorar, organizar y gestionar sus películas favoritas desarrollada como parte de la clase de **Experiencia de Usuario**. La plataforma permite a los usuarios descubrir nuevos lanzamientos, consultar detalles técnicos, ver tráilers y personalizar su propia lista de favoritos.
 
-## Get started
+## 🎥 Demo del Proyecto
 
-1. Install dependencies
+<div align="center">
+  <video src="assets/media/FE_filmcatalog.mp4" width="100%" controls>
+    Tu navegador no soporta la reproducción de videos.
+  </video>
+</div>
 
-   ```bash
-   npm install
-   ```
+## ✨ Características Principales
+* **Autenticación de Usuarios:** Sistema completo de registro e inicio de sesión para una experiencia personalizada.
 
-2. Start the app
+* **Catálogo Extenso:** Exploración de películas organizadas por géneros (Ciencia Ficción, Acción, Drama, Documentales, Animación).
 
-   ```bash
-    npx expo start
-   ```
+* **Detalles Técnicos:** Información detallada de cada título, incluyendo sinopsis, fecha de lanzamiento, duración, calificación y productoras.
 
-In the output, you'll find options to open the app in a
+* **Gestión de Favoritos:** Permite a los usuarios marcar y desmarcar películas para guardarlas en una sección especial.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+* **Buscador Inteligente:** Función de búsqueda dinámica para encontrar títulos específicos rápidamente.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+* **Multimedia:** Integración de reproductores de tráilers y galerías de imágenes en alta resolución.
 
-## Get a fresh project
+## 🛠️ Tecnologías Utilizadas
+* **Frontend:** React Native / Expo (basado en la interfaz móvil).
+* **Lenguaje:** JavaScript / TypeScript.
+* **Iconografía y Estilos:** Lucide React / Material Icons.
+* **API de Datos:** Integración con servicios de catálogo de películas (ej. TMDB API).
 
-When you're ready, run:
+## Utilización del APK/Aplicación descargable ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+
+Seguí estos pasos para probar la aplicación:
+
+### 1. Descargar el filmcatalog.apk en el repo:
 
 ```bash
-npm run reset-project
+filmcatalog.apk
 ```
+### 2. Habilitar permisos necesarios de descarga
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 3. Crear una cuenta
 
-## Learn more
+### 4. Hacer login y probar
 
-To learn more about developing your project with Expo, look at the following resources:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 👥 Colaboradores
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+<table border="0">
+  <tr>
+    <td align="center">
+      <a href="https://github.com/andreaortez">
+        <img src="https://github.com/andreaortez.png" width="90px;" alt="Andrea J. Ortez"/><br />
+        <b>Andrea J. Ortez</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Tatiana-Garcia">
+        <img src="https://github.com/Tatiana-Garcia.png" width="90px;" alt="Tatiana Z. Garcia"/><br />
+        <b>Tatiana Z. Garcia</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/darielsevilla">
+        <img src="https://github.com/darielsevilla.png" width="90px;" alt="Dariel Sevilla"/><br />
+        <b>Dariel Sevilla</b>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Zio5458">
+        <img src="https://github.com/Zio5458.png" width="90px;" alt="Zio5458"/><br />
+        <b>Zio5458</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/AkeemIeong">
+        <img src="https://github.com/AkeemIeong.png" width="90px;" alt="Akeem Ieong"/><br />
+        <b>Akeem Ieong</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/DanielReyes1">
+        <img src="https://github.com/DanielReyes1.png" width="90px;" alt="Daniel Reyes"/><br />
+        <b>Daniel Reyes</b>
+      </a>
+    </td>
+  </tr>
+</table>
