@@ -90,3 +90,10 @@ filmcatalog.apk
     </td>
   </tr>
 </table>
+
+---
+
+## 🔗 Enlaces del Proyecto
+
+* **📦 Backend:** [Ver Repositorio](https://github.com/Tatiana-Garcia/Film_Catalog_UX)
+* **📱 Frontend:** [Ver Repositorio](https://github.com/darielsevilla/Film_Catalog)
