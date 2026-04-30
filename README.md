@@ -3,6 +3,7 @@
 Film Catalog es una aplicación móvil diseñada para que los amantes del cine puedan explorar, organizar y gestionar sus películas favoritas desarrollada como parte de la clase de **Experiencia de Usuario**. La plataforma permite a los usuarios descubrir nuevos lanzamientos, consultar detalles técnicos, ver tráilers y personalizar su propia lista de favoritos.
 
 ## 🎥 Demo del Proyecto
+![Muestra de Proyecto](./assets/media/FE_filmcatalog01.gif)
 
 ## ✨ Características Principales
 * **Autenticación de Usuarios:** Sistema completo de registro e inicio de sesión para una experiencia personalizada.
@@ -37,6 +38,8 @@ filmcatalog.apk
 ### 3. Crear una cuenta
 
 ### 4. Hacer login y probar
+
+![Muestra de Proyecto](./assets/media/FE_filmcatalog02.gif)
 
 ## 👥 Colaboradores
 
